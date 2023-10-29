@@ -1,0 +1,42 @@
+.person {
+  display: grid;
+  grid-auto-flow: row dense;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0em 0px;
+  grid-template-areas:
+    'name gender size'
+    'name colors colors';
+}
+.name {
+  grid-area: name;
+  margin-left: auto;
+  margin-right: auto;
+}
+.gender {
+  grid-area: gender;
+  justify-self: center;
+  align-self: center;
+}
+.size {
+  grid-area: size;
+  justify-self: center;
+  align-self: center;
+}
+.colors {
+  grid-area: colors;
+  justify-self: center;
+  align-self: center;
+}
+.nameParameter {
+  font-size: small;
+  align-self: center;
+}
+.parameter {
+  background-color: whitesmoke;
+  border-radius: 5px;
+  padding: 0.1rem 0.3rem;
+  margin: 0.2rem 0.3rem;
+}
+.container {
+  display: inline-block;
+}
