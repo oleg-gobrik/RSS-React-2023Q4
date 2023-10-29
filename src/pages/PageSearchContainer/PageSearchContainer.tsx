@@ -6,6 +6,7 @@ import {
 } from '../../utils/ApiResponse/ApiResponsePeople';
 import CardListWrapper from '../../components/CardListWrapper/CardListWrapper';
 import ApiRequestPeople from '../../utils/ApiRequest/ApiRequestPeople';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 
 interface State {
   searchValue: ApiResponsePeople;
@@ -62,10 +63,13 @@ export default class PageSearchContainer extends React.Component<Props, State> {
   render() {
     return (
       <>
-        <SearchBar
-          onSearchHandler={this.requestToSearch}
-          loadingHandler={this.toggleLoading}
-        />
+        <ErrorBoundary>
+          <SearchBar
+            onSearchHandler={this.requestToSearch}
+            loadingHandler={this.toggleLoading}
+          />
+        </ErrorBoundary>
+
         <CardListWrapper
           searchObject={this.state.searchValue}
           isLoadingSearch={this.state.isLoadingSearch}

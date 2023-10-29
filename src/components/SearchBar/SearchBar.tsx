@@ -14,6 +14,7 @@ interface Props {
 interface State {
   inputValue: string;
   resultArray: string[] | undefined;
+  hasError: boolean;
 }
 export default class SearchBar extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -21,6 +22,7 @@ export default class SearchBar extends React.Component<Props, State> {
     this.state = {
       inputValue: '',
       resultArray: [],
+      hasError: false,
     };
   }
   componentDidMount = () => {
@@ -28,7 +30,7 @@ export default class SearchBar extends React.Component<Props, State> {
     if (values && values.length) {
       const value: string | undefined = values.at(-1);
       if (value !== null && value !== undefined) {
-        this.setState({ inputValue: value, resultArray: [] });
+        this.setState({ inputValue: value, resultArray: [], hasError: false });
         this.requestToServer(value.trim());
       }
     } else {
@@ -38,7 +40,7 @@ export default class SearchBar extends React.Component<Props, State> {
 
   setValueToState = (value: string, requests: string[]) => {
     if (value === '') {
-      this.setState({ inputValue: '', resultArray: requests });
+      this.setState({ inputValue: '', resultArray: requests, hasError: false });
       return;
     }
     const regExpSearch: RegExp = RegExp('^' + value + '+');
@@ -46,6 +48,7 @@ export default class SearchBar extends React.Component<Props, State> {
       this.setState({
         inputValue: value,
         resultArray: requests.filter((item) => item.match(regExpSearch)),
+        hasError: false,
       });
     } else {
       this.setState((prevState) => {
@@ -61,7 +64,11 @@ export default class SearchBar extends React.Component<Props, State> {
       SearchLocalStorage.getSearchInputLS();
     searchedInputValues !== undefined
       ? this.setValueToState(value, searchedInputValues)
-      : this.setState({ inputValue: value, resultArray: [] });
+      : this.setState((prevState) => ({
+          ...prevState,
+          inputValue: value,
+          resultArray: [],
+        }));
   };
   changeInputValueHandler = (value: string) => {
     this.calculateListRequests(value);
@@ -70,7 +77,11 @@ export default class SearchBar extends React.Component<Props, State> {
     this.calculateListRequests(this.state.inputValue);
   };
   setValueInInput = (value: string) => {
-    this.setState({ inputValue: value, resultArray: [] });
+    this.setState((prevState) => ({
+      ...prevState,
+      inputValue: value,
+      resultArray: [],
+    }));
   };
   requestToServer = (value: string) => {
     const response: Promise<ApiResponsePeople> =
@@ -93,9 +104,12 @@ export default class SearchBar extends React.Component<Props, State> {
   };
 
   startError = () => {
-    throw new Error('Error application!');
+    this.setState((prevState) => ({ ...prevState, hasError: true }));
   };
   render() {
+    if (this.state.hasError) {
+      throw new Error('Error in the SearchBar component!');
+    }
     return (
       <header className={styles.searchBar}>
         <Button clickHandler={this.startError}>
