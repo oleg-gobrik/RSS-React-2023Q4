@@ -1,141 +1,119 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import styles from './SearchBar.module.css';
 import search from '../../assets/search.png';
 import ListPreviousRequests from '../ListPreviousRequests/ListPreviousRequests';
 import Button from '../Button/Button';
 import { ApiResponsePeople } from '../../utils/ApiResponse/ApiResponsePeople';
-import ApiRequestPeople from '../../utils/ApiRequest/ApiRequestPeople';
-import SearchLocalStorage from '../../utils/SearchLocalStorage';
+import { getPeopleParamUrlAPI } from '../../utils/ApiRequest/ApiRequestPeople';
+import {
+  getSearchInputLS,
+  saveSearchInputToLS,
+} from '../../utils/SearchLocalStorage';
+import { Props, StateData } from './types';
+import ErrorButton from '../ErrorButton/ErrorButton';
 
-interface Props {
-  onSearchHandler: (value: ApiResponsePeople) => void;
-  loadingHandler: (value: boolean) => void;
-}
-interface State {
-  inputValue: string;
-  resultArray: string[] | undefined;
-  hasError: boolean;
-}
-export default class SearchBar extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      inputValue: '',
-      resultArray: [],
-      hasError: false,
-    };
-  }
-  componentDidMount = () => {
-    const values: string[] | undefined = SearchLocalStorage.getSearchInputLS();
+export default function SearchBar(props: Props) {
+  const [searchBarData, setSearchBarData] = useState<StateData>({
+    inputValue: '',
+    resultArray: [],
+  });
+
+  const requestToServer = async (value: string) => {
+    props.loadingHandler(true);
+    const result: ApiResponsePeople = await getPeopleParamUrlAPI(value);
+    props.onSearchHandler(result);
+    props.loadingHandler(false);
+  };
+
+  useEffect(() => {
+    const values: string[] | undefined = getSearchInputLS();
     if (values && values.length) {
       const value: string | undefined = values.at(-1);
       if (value !== null && value !== undefined) {
-        this.setState({ inputValue: value, resultArray: [], hasError: false });
-        this.requestToServer(value.trim());
+        setSearchBarData({
+          inputValue: value,
+          resultArray: [],
+        });
+        //requestToServer(value.trim());
       }
     } else {
-      this.requestToServer('');
+      //requestToServer('');
     }
-  };
+  }, []);
 
-  setValueToState = (value: string, requests: string[]) => {
+  const setValueToState = (value: string, requests: string[]) => {
     if (value === '') {
-      this.setState({ inputValue: '', resultArray: requests, hasError: false });
+      setSearchBarData({
+        inputValue: '',
+        resultArray: requests,
+      });
       return;
     }
     const regExpSearch: RegExp = RegExp('^' + value + '+');
-    if (requests !== null) {
-      this.setState({
-        inputValue: value,
-        resultArray: requests.filter((item) => item.match(regExpSearch)),
-        hasError: false,
-      });
-    } else {
-      this.setState((prevState) => {
-        return {
-          ...prevState,
-          inputValue: value,
-        };
-      });
-    }
+    setSearchBarData({
+      inputValue: value,
+      resultArray: requests.filter((item) => item.match(regExpSearch)),
+    });
   };
-  calculateListRequests = (value: string) => {
-    const searchedInputValues: string[] | undefined =
-      SearchLocalStorage.getSearchInputLS();
-    searchedInputValues !== undefined
-      ? this.setValueToState(value, searchedInputValues)
-      : this.setState((prevState) => ({
+
+  const calculateListRequests = (value: string) => {
+    const searchedInputValues: string[] | undefined = getSearchInputLS();
+    searchedInputValues
+      ? setValueToState(value, searchedInputValues)
+      : setSearchBarData((prevState) => ({
           ...prevState,
           inputValue: value,
           resultArray: [],
         }));
   };
-  changeInputValueHandler = (value: string) => {
-    this.calculateListRequests(value);
+  const changeInputValueHandler = (value?: string) => {
+    calculateListRequests(
+      value || value === '' ? value : searchBarData.inputValue
+    );
   };
-  focusInputFieldHandler = () => {
-    this.calculateListRequests(this.state.inputValue);
-  };
-  setValueInInput = (value: string) => {
-    this.setState((prevState) => ({
+  const setValueInInput = (value: string) => {
+    setSearchBarData((prevState) => ({
       ...prevState,
       inputValue: value,
       resultArray: [],
     }));
   };
-  requestToServer = (value: string) => {
-    const response: Promise<ApiResponsePeople> =
-      ApiRequestPeople.getPeopleParamUrlAPI(value);
-    response.then((result) => {
-      this.props.onSearchHandler(result);
-      this.props.loadingHandler(false);
-    });
-    this.props.loadingHandler(true);
-  };
-  clickSearch = () => {
-    SearchLocalStorage.saveSearchInputToLS(this.state.inputValue.trim());
-    this.requestToServer(this.state.inputValue.trim());
-    this.setState((prevState) => {
+
+  const clickSearch = () => {
+    saveSearchInputToLS(searchBarData.inputValue.trim());
+    requestToServer(searchBarData.inputValue.trim());
+    setSearchBarData((prevState) => {
       return {
         ...prevState,
         resultArray: [],
       };
     });
   };
-
-  startError = () => {
-    this.setState((prevState) => ({ ...prevState, hasError: true }));
-  };
-  render() {
-    if (this.state.hasError) {
-      throw new Error('Error in the SearchBar component!');
-    }
-    return (
-      <header className={styles.searchBar}>
-        <Button clickHandler={this.startError}>
-          <span className={styles.error}>Make Error</span>
-        </Button>
-        <div className={styles.searchInput}>
-          <input
-            type="text"
-            value={this.state.inputValue}
-            onChange={(event) => {
-              this.changeInputValueHandler(event.target.value);
-            }}
-            onFocus={this.focusInputFieldHandler}
-            onKeyDown={(event) => {
-              event.key === '13' && this.clickSearch;
-            }}
-          />
-          <ListPreviousRequests
-            previousRequests={this.state.resultArray}
-            onClickHandler={this.setValueInInput}
-          />
-        </div>
-        <Button clickHandler={this.clickSearch}>
-          <img className={styles.searchIcon} src={search} alt="Search" />
-        </Button>
-      </header>
-    );
-  }
+  return (
+    <header className={styles.searchBar}>
+      <ErrorButton />
+      <div className={styles.searchInput}>
+        <input
+          type="text"
+          value={searchBarData.inputValue}
+          onChange={(event) => {
+            changeInputValueHandler(event.target.value);
+          }}
+          onFocus={() => {
+            changeInputValueHandler();
+          }}
+          onKeyDown={(event) => {
+            event.key === 'Enter' && clickSearch();
+          }}
+        />
+        <ListPreviousRequests
+          previousRequests={searchBarData.resultArray}
+          onClickHandler={setValueInInput}
+        />
+      </div>
+      <Button clickHandler={clickSearch}>
+        <img className={styles.searchIcon} src={search} alt="Search" />
+      </Button>
+    </header>
+  );
 }

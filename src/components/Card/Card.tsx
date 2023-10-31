@@ -1,12 +1,7 @@
 import styles from './Card.module.css';
 import React from 'react';
+import { Props } from './types';
 
-type Props = {
-  children: JSX.Element;
-};
-class Card extends React.Component<Props> {
-  render() {
-    return <div className={styles.card}>{this.props.children}</div>;
-  }
+export default function Card(props: Props) {
+  return <div className={styles.card}>{props.children}</div>;
 }
-export default Card;

@@ -1,81 +1,47 @@
-import React from 'react';
+import { useState } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import {
   initialResponsePeople,
   ApiResponsePeople,
 } from '../../utils/ApiResponse/ApiResponsePeople';
 import CardListWrapper from '../../components/CardListWrapper/CardListWrapper';
-import ApiRequestPeople from '../../utils/ApiRequest/ApiRequestPeople';
-import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import { getPeopleFullUrlAPI } from '../../utils/ApiRequest/ApiRequestPeople';
 
-interface State {
-  searchValue: ApiResponsePeople;
-  isLoadingSearch: boolean;
-}
-interface Props {}
+export default function PageSearchContainer() {
+  const [searchValue, setSearchValue] = useState<ApiResponsePeople>(
+    initialResponsePeople
+  );
+  const [isLoadingSearch, setIsLoadingSearch] = useState<boolean>(false);
 
-export default class PageSearchContainer extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      searchValue: initialResponsePeople,
-      isLoadingSearch: false,
-    };
-  }
-  requestToSearch = (value: ApiResponsePeople) => {
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        searchValue: value,
-        isLoadingSearch: false,
-      };
-    });
+  const requestToSearch = (value: ApiResponsePeople) => {
+    setSearchValue(value);
+    setIsLoadingSearch(false);
   };
-  toggleLoading = (value: boolean) => {
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        isLoadingSearch: value,
-      };
-    });
+
+  const toggleLoading = (value: boolean) => {
+    setIsLoadingSearch(value);
   };
-  getItems(url: string): void {
-    const response: Promise<ApiResponsePeople> =
-      ApiRequestPeople.getPeopleFullUrlAPI(url);
+
+  const getItems = (url: string) => {
+    const response: Promise<ApiResponsePeople> = getPeopleFullUrlAPI(url);
     response.then((result) => {
-      this.setState((prevState) => {
-        return {
-          ...prevState,
-          isLoadingSearch: false,
-          searchValue: result,
-        };
-      });
+      setSearchValue(result);
+      setIsLoadingSearch(false);
     });
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        searchValue: initialResponsePeople,
-        isLoadingSearch: true,
-      };
-    });
-  }
-
-  render() {
-    return (
-      <>
-        <ErrorBoundary>
-          <SearchBar
-            onSearchHandler={this.requestToSearch}
-            loadingHandler={this.toggleLoading}
-          />
-        </ErrorBoundary>
-
-        <CardListWrapper
-          searchObject={this.state.searchValue}
-          isLoadingSearch={this.state.isLoadingSearch}
-          changeItemsHandler={this.getItems.bind(this)}
-        />
-      </>
-    );
-  }
+    setSearchValue(initialResponsePeople);
+    setIsLoadingSearch(true);
+  };
+  return (
+    <>
+      <SearchBar
+        onSearchHandler={requestToSearch}
+        loadingHandler={toggleLoading}
+      />
+      <CardListWrapper
+        searchObject={searchValue}
+        isLoadingSearch={isLoadingSearch}
+        changeItemsHandler={getItems}
+      />
+    </>
+  );
 }

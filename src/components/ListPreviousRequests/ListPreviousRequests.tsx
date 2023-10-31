@@ -1,33 +1,17 @@
 import React from 'react';
 import styles from './ListPreviousRequests.module.css';
+import { Props } from './types';
 
-interface Props {
-  previousRequests: string | string[] | undefined;
-  onClickHandler: (value: string) => void;
+export default function ListPreviousRequests(props: Props) {
+  const { previousRequests, onClickHandler } = props;
+  return (
+    <ul className={styles.listRequests}>
+      {previousRequests &&
+        previousRequests.map((item) => (
+          <li key={item} id={item} onClick={() => onClickHandler(item)}>
+            {item}
+          </li>
+        ))}
+    </ul>
+  );
 }
-
-class ListPreviousRequests extends React.Component<Props> {
-  render() {
-    const { previousRequests, onClickHandler } = this.props;
-    return (
-      <ul className={styles.listRequests}>
-        {previousRequests !== undefined && Array.isArray(previousRequests)
-          ? previousRequests.map((item, index) => (
-              <li
-                key={index}
-                id={String(index)}
-                onClick={() => onClickHandler(item)}
-              >
-                {item}
-              </li>
-            ))
-          : previousRequests !== undefined && (
-              <li onClick={() => onClickHandler(previousRequests)}>
-                {previousRequests}
-              </li>
-            )}
-      </ul>
-    );
-  }
-}
-export default ListPreviousRequests;

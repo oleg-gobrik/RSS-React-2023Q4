@@ -1,14 +1,14 @@
-import React from 'react';
-import './App.css';
 import PageSearchContainer from './pages/PageSearchContainer/PageSearchContainer';
-class App extends React.Component {
-  render() {
-    return (
-      <>
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+
+function App() {
+  return (
+    <>
+      <ErrorBoundary>
         <PageSearchContainer />
-      </>
-    );
-  }
+      </ErrorBoundary>
+    </>
+  );
 }
 
 export default App;

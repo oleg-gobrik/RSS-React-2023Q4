@@ -10,7 +10,6 @@
     "preview": "vite preview",
     "prettier": "npx prettier --write .",
     "format:fix": "prettier . --write --color",
-    "husky": "husky install",
     "prepare": "husky install"
   },
   "dependencies": {
