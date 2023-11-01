@@ -1,4 +1,5 @@
-export type Props = {
-  clickHandler: () => void;
-  children?: React.ReactNode;
+import React from 'react';
+
+export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  children: React.ReactNode;
 };
