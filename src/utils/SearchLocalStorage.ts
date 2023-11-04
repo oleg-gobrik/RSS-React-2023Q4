@@ -36,3 +36,13 @@ export const saveSearchInputToLS = (searchValue: string) => {
     );
   }
 };
+export const getSearchValue = () => {
+  const values: string[] | undefined = getSearchInputLS();
+  if (values && values.length) {
+    const value: string | undefined = values.at(-1);
+    if (value !== null && value !== undefined) {
+      return value;
+    }
+  }
+  return '';
+};

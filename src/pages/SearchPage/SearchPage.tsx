@@ -1,47 +1,21 @@
-import { useState } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import {
-  initialResponsePeople,
-  ApiResponsePeople,
-} from '../../utils/ApiResponse/ApiResponsePeople';
-import CardListWrapper from '../../components/CardListWrapper/CardListWrapper';
-import { getPeopleFullUrlAPI } from '../../utils/ApiRequest/ApiRequestPeople';
+import { SearchContext } from './SearchContext';
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import { ISearchContext } from './SearchContext';
 
 export default function SearchPage() {
-  const [searchValue, setSearchValue] = useState<ApiResponsePeople>(
-    initialResponsePeople
-  );
-  const [isLoadingSearch, setIsLoadingSearch] = useState<boolean>(false);
-
-  const requestToSearch = (value: ApiResponsePeople) => {
-    setSearchValue(value);
-    setIsLoadingSearch(false);
-  };
-
-  const toggleLoading = (value: boolean) => {
-    setIsLoadingSearch(value);
-  };
-
-  const getItems = (url: string) => {
-    const response: Promise<ApiResponsePeople> = getPeopleFullUrlAPI(url);
-    response.then((result) => {
-      setSearchValue(result);
-      setIsLoadingSearch(false);
-    });
-    setSearchValue(initialResponsePeople);
-    setIsLoadingSearch(true);
+  const [searchValue, setSearchValue] = useState<string>('');
+  const searchContextValue: ISearchContext = {
+    searchValue,
+    density: 10,
   };
   return (
     <>
-      <SearchBar
-        onSearchHandler={requestToSearch}
-        loadingHandler={toggleLoading}
-      />
-      <CardListWrapper
-        searchObject={searchValue}
-        isLoadingSearch={isLoadingSearch}
-        changeItemsHandler={getItems}
-      />
+      <SearchContext.Provider value={searchContextValue}>
+        <SearchBar setSearchValue={setSearchValue} />
+        <Outlet />
+      </SearchContext.Provider>
     </>
   );
 }

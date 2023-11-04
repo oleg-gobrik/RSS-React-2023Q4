@@ -1,5 +1,5 @@
 export type Props = {
-  nextPage: string | null;
-  previousPage: string | null;
-  onChangePageHandler: (url: string) => void;
+  countPages: number;
+  currentPage?: number;
+  onClickHandler: (page: number) => void;
 };

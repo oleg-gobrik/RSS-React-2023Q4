@@ -3,16 +3,17 @@
   justify-content: center;
   flex-wrap: wrap;
 }
-.buttonChangePage {
-  min-width: 7rem;
-  border-radius: 3px;
+.page {
+  color: black;
   margin: 0.1rem 0.5rem;
   padding: 0.3rem;
-  color: gray;
-  background-color: whitesmoke;
-  border: 2px solid darkgray;
-  border-radius: 10px;
+  cursor: pointer;
 }
-.buttonChangePage:hover {
-  background-color: rgb(236, 237, 235);
+.currentPage {
+  color: brown;
+  background-color: aquamarine;
+  border-radius: 10px;
+  margin: 0.1rem 0.5rem;
+  padding: 0.3rem;
+  cursor: pointer;
 }
