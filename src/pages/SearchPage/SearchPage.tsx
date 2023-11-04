@@ -7,7 +7,7 @@ import {
 import CardListWrapper from '../../components/CardListWrapper/CardListWrapper';
 import { getPeopleFullUrlAPI } from '../../utils/ApiRequest/ApiRequestPeople';
 
-export default function PageSearchContainer() {
+export default function SearchPage() {
   const [searchValue, setSearchValue] = useState<ApiResponsePeople>(
     initialResponsePeople
   );
