@@ -11,7 +11,7 @@ export default function ErrorButton() {
     throw new Error('Test error boundary.');
   }
   return (
-    <Button clickHandler={clickError}>
+    <Button onClick={clickError}>
       <span className={styles.error}>Make Error</span>
     </Button>
   );

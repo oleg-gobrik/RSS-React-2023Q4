@@ -1,11 +1,11 @@
-import PageSearchContainer from './pages/PageSearchContainer/PageSearchContainer';
+import SearchPage from './pages/SearchPage/SearchPage';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 function App() {
   return (
     <>
       <ErrorBoundary>
-        <PageSearchContainer />
+        <SearchPage />
       </ErrorBoundary>
     </>
   );

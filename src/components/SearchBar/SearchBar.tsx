@@ -111,7 +111,7 @@ export default function SearchBar(props: Props) {
           onClickHandler={setValueInInput}
         />
       </div>
-      <Button clickHandler={clickSearch}>
+      <Button onClick={clickSearch}>
         <img className={styles.searchIcon} src={search} alt="Search" />
       </Button>
     </header>
