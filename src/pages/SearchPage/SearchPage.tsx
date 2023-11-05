@@ -14,7 +14,10 @@ export default function SearchPage() {
   return (
     <>
       <SearchContext.Provider value={searchContextValue}>
-        <SearchBar setSearchValue={setSearchValue} setDensityValue={setDensity} />
+        <SearchBar
+          setSearchValue={setSearchValue}
+          setDensityValue={setDensity}
+        />
         <Outlet />
       </SearchContext.Provider>
     </>

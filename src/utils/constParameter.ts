@@ -1,3 +1,1 @@
-export const dropdownCountCardsOnPage: number[] = [
-    10, 20
-]
+export const dropdownCountCardsOnPage: number[] = [10, 20];

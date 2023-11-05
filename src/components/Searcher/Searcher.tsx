@@ -9,7 +9,7 @@ import { getSearchValue } from '../../utils/SearchLocalStorage';
 import {
   initialResponsePeople,
   ApiResponsePeople,
-  Person
+  Person,
 } from '../../utils/ApiResponse/ApiResponsePeople';
 import { getPeopleParamBySearchAndPage } from '../../utils/ApiRequest/ApiRequestPeople';
 
@@ -21,76 +21,87 @@ export default function Searcher() {
   const [isLoadingSearch, setIsLoadingSearch] = useState<boolean>(false);
   const { pageNumber } = useParams();
 
-  const getItemsBySearchAndPage = (page?: number) => {
-    getPeopleParamBySearchAndPage(
-      getSearchValue(),
-      page ? page.toString() : undefined
-    ).then((result) => {
-      setResponseValue(result);
-      setIsLoadingSearch(false);
-    });
-    setResponseValue(initialResponsePeople);
-    setIsLoadingSearch(true);
-  };
   const pagesCount = Math.ceil(responseValue.count / density);
-  const originPagesCount = Math.ceil(responseValue.count / 10);
 
   useEffect(() => {
-    if(density === 20){
+    const originPagesCount = Math.ceil(responseValue.count / 10);
+    if (density === 20) {
       let responses: ApiResponsePeople = initialResponsePeople;
-      //const countRequest = density / 10;
-      if(!pageNumber){
+      if (!pageNumber) {
         Promise.all([
           getPeopleParamBySearchAndPage(getSearchValue()),
-          getPeopleParamBySearchAndPage(getSearchValue(), "2")
-        ]).then((result) => {
-          const allResults = result.reduce<Person[]>( (accumulator, item) => 
-            ([...accumulator, ...(item.results || [])])
-          , [])
-          responses = {count: result[0].count, results: allResults, previous:result[0].previous,
-          next: result[0].next};
-          setResponseValue(responses);
-          setIsLoadingSearch(false);
-        }).catch(error => alert(error.message));
+          getPeopleParamBySearchAndPage(getSearchValue(), '2'),
+        ])
+          .then((result) => {
+            const allResults = result.reduce<Person[]>(
+              (accumulator, item) => [...accumulator, ...(item.results || [])],
+              []
+            );
+            responses = {
+              count: result[0].count,
+              results: allResults,
+              previous: result[0].previous,
+              next: result[0].next,
+            };
+            setResponseValue(responses);
+            setIsLoadingSearch(false);
+          })
+          .catch((error) => alert(error.message));
         setResponseValue(initialResponsePeople);
         setIsLoadingSearch(true);
       } else {
-        const dataRequests: Promise<ApiResponsePeople>[] =  [
-          2*(+pageNumber) - 1,
-          2*(+pageNumber)
-        ].filter(x => x <= originPagesCount).map(pageNumber => getPeopleParamBySearchAndPage(getSearchValue(), pageNumber.toString()));
-        Promise.all(dataRequests).then((result) => {
-          const allResults = result.reduce<Person[]>( (accumulator, item) => 
-            ([...accumulator, ...(item.results || [])])
-          , [])
-          responses = {count: result[0].count, results: allResults, previous:result[0].previous,
-          next: result[0].next};
-          setResponseValue(responses);
-          setIsLoadingSearch(false);
-        }).catch(error => alert(error.message));
+        const dataRequests: Promise<ApiResponsePeople>[] = [
+          2 * +pageNumber - 1,
+          2 * +pageNumber,
+        ]
+          .filter((x) => x <= originPagesCount)
+          .map((pageNumber) =>
+            getPeopleParamBySearchAndPage(
+              getSearchValue(),
+              pageNumber.toString()
+            )
+          );
+        Promise.all(dataRequests)
+          .then((result) => {
+            const allResults = result.reduce<Person[]>(
+              (accumulator, item) => [...accumulator, ...(item.results || [])],
+              []
+            );
+            responses = {
+              count: result[0].count,
+              results: allResults,
+              previous: result[0].previous,
+              next: result[0].next,
+            };
+            setResponseValue(responses);
+            setIsLoadingSearch(false);
+          })
+          .catch((error) => alert(error.message));
         setResponseValue(initialResponsePeople);
         setIsLoadingSearch(true);
-      }   
+      }
     } else {
-      if(!pageNumber){
-        getPeopleParamBySearchAndPage(getSearchValue()).then((result) => {
-          setResponseValue(result);
-          setIsLoadingSearch(false);
-        }).catch(error => alert(error.message));
+      if (!pageNumber) {
+        getPeopleParamBySearchAndPage(getSearchValue())
+          .then((result) => {
+            setResponseValue(result);
+            setIsLoadingSearch(false);
+          })
+          .catch((error) => alert(error.message));
         setResponseValue(initialResponsePeople);
         setIsLoadingSearch(true);
       } else {
-        getPeopleParamBySearchAndPage(
-          getSearchValue(),
-          pageNumber
-        ).then((result) => {
-          setResponseValue(result);
-          setIsLoadingSearch(false);
-        }).catch(error => alert(error.message));
+        getPeopleParamBySearchAndPage(getSearchValue(), pageNumber)
+          .then((result) => {
+            setResponseValue(result);
+            setIsLoadingSearch(false);
+          })
+          .catch((error) => alert(error.message));
         setResponseValue(initialResponsePeople);
         setIsLoadingSearch(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue, density, pageNumber]);
 
   return isLoadingSearch ? (
@@ -101,7 +112,7 @@ export default function Searcher() {
       <Paginator
         countPages={pagesCount}
         currentPage={pageNumber ? +pageNumber : undefined}
-        onClickHandler={getItemsBySearchAndPage}
+        //onClickHandler={getItemsBySearchAndPage}
       />
     </section>
   );

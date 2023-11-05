@@ -4,7 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Props } from './types';
 
 export default function Paginator(props: Props) {
-  const { countPages, currentPage, onClickHandler } = props;
+  const { countPages, currentPage } = props;
   const [arrayPages, setArrayPages] = useState<number[]>([]);
   const location = useLocation();
 

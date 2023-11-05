@@ -84,36 +84,36 @@ export default function SearchBar(props: Props) {
 
   return (
     <section>
-    <div className={styles.searchBar}>
-      <ErrorButton />
-      <div className={styles.searchInput}>
-        <input
-          type="text"
-          value={searchBarData.inputValue}
-          onChange={(event) => {
-            changeInputValueHandler(event.target.value);
-          }}
-          onFocus={() => {
-            changeInputValueHandler();
-          }}
-          onKeyDown={(event) => {
-            event.key === 'Enter' && clickSearch();
-          }}
-        />
-        <ListPreviousRequests
-          previousRequests={searchBarData.resultArray}
-          onClickHandler={setValueInInput}
-        />
+      <div className={styles.searchBar}>
+        <ErrorButton />
+        <div className={styles.searchInput}>
+          <input
+            type="text"
+            value={searchBarData.inputValue}
+            onChange={(event) => {
+              changeInputValueHandler(event.target.value);
+            }}
+            onFocus={() => {
+              changeInputValueHandler();
+            }}
+            onKeyDown={(event) => {
+              event.key === 'Enter' && clickSearch();
+            }}
+          />
+          <ListPreviousRequests
+            previousRequests={searchBarData.resultArray}
+            onClickHandler={setValueInInput}
+          />
+        </div>
+        <Button onClick={clickSearch}>
+          <img className={styles.searchIcon} src={search} alt="Search" />
+        </Button>
       </div>
-      <Button onClick={clickSearch}>
-        <img className={styles.searchIcon} src={search} alt="Search" />
-      </Button>
-    </div>
-    <Dropdown 
-      items={dropdownCountCardsOnPage} 
-      name='numberCards'
-      changeValueHandler={props.setDensityValue}
-    />
+      <Dropdown
+        items={dropdownCountCardsOnPage}
+        name="numberCards"
+        changeValueHandler={props.setDensityValue}
+      />
     </section>
   );
 }

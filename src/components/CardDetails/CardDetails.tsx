@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation , Link } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import { getPeopleParamById } from '../../utils/ApiRequest/ApiRequestPeople';
-import { Person, initialPerson } from '../../utils/ApiResponse/ApiResponsePeople';
+import {
+  Person,
+  initialPerson,
+} from '../../utils/ApiResponse/ApiResponsePeople';
 import styles from './CardDetails.module.css';
 import Button from '../Button/Button';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
@@ -59,7 +62,7 @@ export default function CardDetails() {
         </div>
       </div>
       <Button>
-        <Link to={`${location.pathname}/../..`} >Close Details</Link>
+        <Link to={`${location.pathname}/../..`}>Close Details</Link>
       </Button>
     </div>
   );
