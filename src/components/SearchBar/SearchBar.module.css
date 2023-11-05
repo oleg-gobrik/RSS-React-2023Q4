@@ -1,0 +1,25 @@
+.searchBar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1rem 0;
+  background-color: lightsteelblue;
+}
+.searchInput {
+  margin-right: 2rem;
+  z-index: 1;
+  position: relative;
+}
+.searchInput input {
+  display: block;
+  border-radius: 1rem;
+  border: 2px solid rgb(126, 167, 167);
+  padding: 0.5rem 0.2rem 0.5rem 1rem;
+  height: 16px;
+  width: 100%;
+  max-width: 40rem;
+  z-index: 2;
+}
+.searchIcon {
+  width: 24px;
+}

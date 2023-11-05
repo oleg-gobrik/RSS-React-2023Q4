@@ -1,0 +1,19 @@
+.paginator {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.page {
+  color: black;
+  margin: 0.1rem 0.5rem;
+  padding: 0.3rem;
+  cursor: pointer;
+}
+.currentPage {
+  color: brown;
+  background-color: aquamarine;
+  border-radius: 10px;
+  margin: 0.1rem 0.5rem;
+  padding: 0.3rem;
+  cursor: pointer;
+}

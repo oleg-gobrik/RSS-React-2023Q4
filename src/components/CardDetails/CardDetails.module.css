@@ -1,0 +1,25 @@
+.detailsContainer {
+  border: 2px solid lightblue;
+  height: 100%;
+  border-radius: 1rem;
+}
+.nameParameter {
+  font-size: small;
+  align-self: center;
+}
+.parameter {
+  background-color: whitesmoke;
+  border-radius: 5px;
+  padding: 0.1rem 0.3rem;
+  margin: 0.2rem 0.3rem;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
