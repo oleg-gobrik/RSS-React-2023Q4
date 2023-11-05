@@ -24,7 +24,11 @@ export default function Searcher() {
   const pagesCount = Math.ceil(responseValue.count / density);
 
   useEffect(() => {
-    const originPagesCount = Math.ceil(responseValue.count / 10);
+    const originPagesCount: number = Math.ceil(responseValue.count / 10);
+    const setValues = (result: ApiResponsePeople, isLoading: boolean) => {
+      setResponseValue(result);
+      setIsLoadingSearch(isLoading);
+    };
     if (density === 20) {
       let responses: ApiResponsePeople = initialResponsePeople;
       if (!pageNumber) {
@@ -43,12 +47,10 @@ export default function Searcher() {
               previous: result[0].previous,
               next: result[0].next,
             };
-            setResponseValue(responses);
-            setIsLoadingSearch(false);
+            setValues(responses, false);
           })
           .catch((error) => alert(error.message));
-        setResponseValue(initialResponsePeople);
-        setIsLoadingSearch(true);
+        setValues(initialResponsePeople, true);
       } else {
         const dataRequests: Promise<ApiResponsePeople>[] = [
           2 * +pageNumber - 1,
@@ -73,32 +75,26 @@ export default function Searcher() {
               previous: result[0].previous,
               next: result[0].next,
             };
-            setResponseValue(responses);
-            setIsLoadingSearch(false);
+            setValues(responses, false);
           })
           .catch((error) => alert(error.message));
-        setResponseValue(initialResponsePeople);
-        setIsLoadingSearch(true);
+        setValues(initialResponsePeople, true);
       }
     } else {
       if (!pageNumber) {
         getPeopleParamBySearchAndPage(getSearchValue())
           .then((result) => {
-            setResponseValue(result);
-            setIsLoadingSearch(false);
+            setValues(result, false);
           })
           .catch((error) => alert(error.message));
-        setResponseValue(initialResponsePeople);
-        setIsLoadingSearch(true);
+        setValues(initialResponsePeople, true);
       } else {
         getPeopleParamBySearchAndPage(getSearchValue(), pageNumber)
           .then((result) => {
-            setResponseValue(result);
-            setIsLoadingSearch(false);
+            setValues(result, false);
           })
           .catch((error) => alert(error.message));
-        setResponseValue(initialResponsePeople);
-        setIsLoadingSearch(true);
+        setValues(initialResponsePeople, true);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,7 +113,6 @@ export default function Searcher() {
       <Paginator
         countPages={pagesCount}
         currentPage={pageNumber ? +pageNumber : undefined}
-        //onClickHandler={getItemsBySearchAndPage}
       />
     </section>
   );

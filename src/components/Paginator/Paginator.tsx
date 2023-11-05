@@ -31,7 +31,6 @@ export default function Paginator(props: Props) {
               to={urlToNewPage}
               key={item}
               className={classNamePageNumber}
-              //onClick={() => onClickHandler(item)}
             >
               {item}
             </NavLink>
