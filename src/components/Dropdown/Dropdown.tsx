@@ -8,12 +8,12 @@ interface Props {
 
 export default function Dropdown(props: Props) {
   return (
-    <>
+    <div className={styles.dropdown}>
       <label>
         Pick a number cards:
         <select
           name={props.name}
-          className={styles.dropdown}
+          className={styles.selector}
           defaultValue={props.items[0]}
           onChange={(event) => {
             props.changeValueHandler(+event.target.value);
@@ -26,6 +26,6 @@ export default function Dropdown(props: Props) {
           ))}
         </select>
       </label>
-    </>
+    </div>
   );
 }
