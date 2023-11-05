@@ -32,3 +32,7 @@ export const getPeopleParamById = async (id: string) => {
   const result: Person = await response.json();
   return result;
 };
+
+export const getIdFromUrl = (url: string) => {
+  return url.slice(0, -1).split('/').pop();
+};

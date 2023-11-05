@@ -2,7 +2,7 @@ import styles from './Searcher.module.css';
 import CardList from '../CardList/CardList';
 import Paginator from '../Paginator/Paginator';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import { useEffect, useContext, useState } from 'react';
 import { SearchContext } from '../../pages/SearchPage/SearchContext';
 import { getSearchValue } from '../../utils/SearchLocalStorage';
@@ -108,7 +108,12 @@ export default function Searcher() {
     <LoadingSpinner />
   ) : (
     <section className={styles.searcher}>
-      <CardList searchObject={responseValue} />
+      <div className={styles.resultsContainer}>
+        <CardList searchObject={responseValue} />
+        <div className={styles.details}>
+          <Outlet />
+        </div>
+      </div>
       <Paginator
         countPages={pagesCount}
         currentPage={pageNumber ? +pageNumber : undefined}
