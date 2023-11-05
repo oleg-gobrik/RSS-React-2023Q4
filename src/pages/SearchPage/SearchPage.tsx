@@ -6,14 +6,15 @@ import { ISearchContext } from './SearchContext';
 
 export default function SearchPage() {
   const [searchValue, setSearchValue] = useState<string>('');
+  const [density, setDensity] = useState<number>(10);
   const searchContextValue: ISearchContext = {
     searchValue,
-    density: 10,
+    density,
   };
   return (
     <>
       <SearchContext.Provider value={searchContextValue}>
-        <SearchBar setSearchValue={setSearchValue} />
+        <SearchBar setSearchValue={setSearchValue} setDensityValue={setDensity} />
         <Outlet />
       </SearchContext.Provider>
     </>

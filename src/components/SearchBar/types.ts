@@ -1,5 +1,6 @@
 export type Props = {
   setSearchValue: (value: string) => void;
+  setDensityValue: (value: number) => void;
   // onSearchHandler: (value: ApiResponsePeople) => void;
   // loadingHandler: (value: boolean) => void;
 };

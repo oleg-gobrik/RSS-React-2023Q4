@@ -11,6 +11,8 @@ import {
 import { Props, StateData } from './types';
 import ErrorButton from '../ErrorButton/ErrorButton';
 import { useNavigate } from 'react-router-dom';
+import { dropdownCountCardsOnPage } from '../../utils/constParameter';
+import Dropdown from '../Dropdown/Dropdown';
 
 export default function SearchBar(props: Props) {
   const [searchBarData, setSearchBarData] = useState<StateData>({
@@ -81,7 +83,8 @@ export default function SearchBar(props: Props) {
   };
 
   return (
-    <header className={styles.searchBar}>
+    <section>
+    <div className={styles.searchBar}>
       <ErrorButton />
       <div className={styles.searchInput}>
         <input
@@ -105,6 +108,12 @@ export default function SearchBar(props: Props) {
       <Button onClick={clickSearch}>
         <img className={styles.searchIcon} src={search} alt="Search" />
       </Button>
-    </header>
+    </div>
+    <Dropdown 
+      items={dropdownCountCardsOnPage} 
+      name='numberCards'
+      changeValueHandler={props.setDensityValue}
+    />
+    </section>
   );
 }

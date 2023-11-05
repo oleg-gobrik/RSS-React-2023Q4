@@ -21,3 +21,14 @@ export interface Person {
   mass: string;
   skin_color: string;
 }
+export const initialPerson: Person = {
+  name: "",
+  eye_color: "",
+  gender: "",
+  hair_color: "",
+  url: "",
+  birth_year: "",
+  height: "",
+  mass: "",
+  skin_color: "",
+}
