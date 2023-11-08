@@ -22,80 +22,49 @@ export default function Searcher() {
   const { pageNumber } = useParams();
 
   const pagesCount = Math.ceil(responseValue.count / density);
+  const originPagesCount: number = Math.ceil(responseValue.count / 10);
+
+  const processingResult = (result: ApiResponsePeople[]) => {
+    let responses: ApiResponsePeople = initialResponsePeople;
+    const allResults = result.reduce<Person[]>(
+      (accumulator, item) => [...accumulator, ...(item.results || [])],
+      []
+    );
+    responses = {
+      count: result[0].count,
+      results: allResults,
+      previous: result[0].previous,
+      next: result[0].next,
+    };
+    setResponseValue(responses);
+  };
 
   useEffect(() => {
-    const originPagesCount: number = Math.ceil(responseValue.count / 10);
-    const setValues = (result: ApiResponsePeople, isLoading: boolean) => {
-      setResponseValue(result);
-      setIsLoadingSearch(isLoading);
-    };
     if (density === 20) {
-      let responses: ApiResponsePeople = initialResponsePeople;
-      if (!pageNumber) {
-        Promise.all([
-          getPeopleParamBySearchAndPage(getSearchValue()),
-          getPeopleParamBySearchAndPage(getSearchValue(), '2'),
-        ])
-          .then((result) => {
-            const allResults = result.reduce<Person[]>(
-              (accumulator, item) => [...accumulator, ...(item.results || [])],
-              []
-            );
-            responses = {
-              count: result[0].count,
-              results: allResults,
-              previous: result[0].previous,
-              next: result[0].next,
-            };
-            setValues(responses, false);
-          })
-          .catch((error) => alert(error.message));
-        setValues(initialResponsePeople, true);
-      } else {
-        const dataRequests: Promise<ApiResponsePeople>[] = [
-          2 * +pageNumber - 1,
-          2 * +pageNumber,
-        ]
-          .filter((x) => x <= originPagesCount)
-          .map((pageNumber) =>
-            getPeopleParamBySearchAndPage(
-              getSearchValue(),
-              pageNumber.toString()
-            )
-          );
-        Promise.all(dataRequests)
-          .then((result) => {
-            const allResults = result.reduce<Person[]>(
-              (accumulator, item) => [...accumulator, ...(item.results || [])],
-              []
-            );
-            responses = {
-              count: result[0].count,
-              results: allResults,
-              previous: result[0].previous,
-              next: result[0].next,
-            };
-            setValues(responses, false);
-          })
-          .catch((error) => alert(error.message));
-        setValues(initialResponsePeople, true);
-      }
+      const dataRequests: Promise<ApiResponsePeople>[] = [
+        2 * +(pageNumber ? pageNumber : 1) - 1,
+        2 * +(pageNumber ? pageNumber : 1),
+      ]
+        .filter((x) => x <= originPagesCount)
+        .map((pageNumber) =>
+          getPeopleParamBySearchAndPage(getSearchValue(), pageNumber.toString())
+        );
+      setIsLoadingSearch(true);
+      Promise.all(dataRequests)
+        .then((result) => processingResult(result))
+        .catch((error) => console.log(error.message))
+        .finally(() => setIsLoadingSearch(false));
     } else {
-      if (!pageNumber) {
-        getPeopleParamBySearchAndPage(getSearchValue())
-          .then((result) => {
-            setValues(result, false);
-          })
-          .catch((error) => alert(error.message));
-        setValues(initialResponsePeople, true);
-      } else {
-        getPeopleParamBySearchAndPage(getSearchValue(), pageNumber)
-          .then((result) => {
-            setValues(result, false);
-          })
-          .catch((error) => alert(error.message));
-        setValues(initialResponsePeople, true);
-      }
+      setIsLoadingSearch(true);
+      getPeopleParamBySearchAndPage(
+        getSearchValue(),
+        pageNumber ? pageNumber : undefined
+      )
+        .then((result) => {
+          setResponseValue(result);
+        })
+        .catch((error) => console.log(error.message))
+        .finally(() => setIsLoadingSearch(false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchValue, density, pageNumber]);

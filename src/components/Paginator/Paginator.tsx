@@ -1,6 +1,6 @@
 import styles from './Paginator.module.css';
-import React, { useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Props } from './types';
 
 export default function Paginator(props: Props) {
@@ -17,23 +17,22 @@ export default function Paginator(props: Props) {
   }, [countPages]);
 
   const isPaginatorInUrl = location.pathname.includes('/page/');
+  const pathPage = isPaginatorInUrl
+    ? location.pathname.split('/page/').shift()
+    : '';
 
   return (
     <div className={styles.paginator}>
       {arrayPages.map((item) => {
-        const urlToNewPage = `${isPaginatorInUrl ? '..' : ''}/page/${item}`;
+        const urlToNewPage = `${pathPage}/page/${item}`;
         const curPage = currentPage ? currentPage : 1;
         const classNamePageNumber =
           curPage === item ? styles.currentPage : styles.page;
         if (item < 6 || item > arrayPages[arrayPages.length - 6]) {
           return (
-            <NavLink
-              to={urlToNewPage}
-              key={item}
-              className={classNamePageNumber}
-            >
+            <Link to={urlToNewPage} key={item} className={classNamePageNumber}>
               {item}
-            </NavLink>
+            </Link>
           );
         } else {
           return;

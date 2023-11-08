@@ -1,10 +1,5 @@
 import styles from './Dropdown.module.css';
-
-interface Props {
-  items: number[];
-  name: string;
-  changeValueHandler: (value: number) => void;
-}
+import { Props } from './types';
 
 export default function Dropdown(props: Props) {
   return (

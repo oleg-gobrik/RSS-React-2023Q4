@@ -1,6 +1,5 @@
-import React from 'react';
 import styles from './CardList.module.css';
-import PersonCard from '../ModelCards/PersonCard/PersonCard';
+import Card from '../Card/Card';
 import { Props } from './types';
 
 export default function CardList(props: Props) {
@@ -10,9 +9,10 @@ export default function CardList(props: Props) {
   } else {
     return (
       <div className={styles.cardList}>
-        {searchObject.results!.map((item, index) => (
-          <PersonCard key={index} value={item}></PersonCard>
-        ))}
+        {searchObject.results &&
+          searchObject.results.map((item, index) => (
+            <Card key={index} value={item} />
+          ))}
       </div>
     );
   }

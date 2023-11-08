@@ -82,6 +82,11 @@ export default function SearchBar(props: Props) {
     });
   };
 
+  const changeDropdownValue = (value: number) => {
+    props.setDensityValue(value);
+    navigate('/page/1');
+  };
+
   return (
     <section>
       <div className={styles.searchBar}>
@@ -90,6 +95,7 @@ export default function SearchBar(props: Props) {
           <input
             type="text"
             value={searchBarData.inputValue}
+            placeholder="Search"
             onChange={(event) => {
               changeInputValueHandler(event.target.value);
             }}
@@ -112,7 +118,7 @@ export default function SearchBar(props: Props) {
       <Dropdown
         items={dropdownCountCardsOnPage}
         name="numberCards"
-        changeValueHandler={props.setDensityValue}
+        changeValueHandler={changeDropdownValue}
       />
     </section>
   );

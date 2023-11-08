@@ -1,11 +1,10 @@
-import React from 'react';
 import styles from './Button.module.css';
 import { Props } from './types';
 
 export default function Button(props: Props) {
-  const { children, ...restProps } = props;
+  const { children, ...buttonProps } = props;
   return (
-    <button className={styles.Button} {...restProps}>
+    <button className={styles.Button} {...buttonProps}>
       {children}
     </button>
   );

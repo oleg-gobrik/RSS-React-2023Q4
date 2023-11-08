@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getPeopleParamById } from '../../utils/ApiRequest/ApiRequestPeople';
 import {
   Person,
@@ -13,14 +13,15 @@ export default function CardDetails() {
   const { id } = useParams();
   const [personDetails, setPersonDetails] = useState<Person>(initialPerson);
   const [loading, setLoading] = useState<boolean>(false);
-  const location = useLocation();
   useEffect(() => {
     if (id) {
-      getPeopleParamById(id).then((result) => {
-        setPersonDetails(result);
-        setLoading(false);
-      });
       setLoading(true);
+      getPeopleParamById(id)
+        .then((result) => {
+          setPersonDetails(result);
+        })
+        .catch((error) => console.log(error.message))
+        .finally(() => setLoading(false));
     }
   }, [id]);
   return loading ? (
@@ -60,7 +61,7 @@ export default function CardDetails() {
         </div>
       </div>
       <Button>
-        <Link className={styles.link} to={`${location.pathname}/../..`}>
+        <Link className={styles.link} to="..">
           Close Details
         </Link>
       </Button>

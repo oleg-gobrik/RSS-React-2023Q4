@@ -1,3 +1,5 @@
+import { Person } from '../../utils/ApiResponse/ApiResponsePeople';
+
 export type Props = {
-  children: React.ReactNode;
+  value: Person;
 };

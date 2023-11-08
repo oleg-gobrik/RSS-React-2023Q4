@@ -1,3 +1,18 @@
+.nameParameter {
+  font-size: small;
+  align-self: center;
+  color: black;
+}
+.parameter {
+  background-color: whitesmoke;
+  border-radius: 5px;
+  padding: 0.1rem 0.3rem;
+  margin: 0.2rem 0.3rem;
+  color: black;
+}
+.person {
+  text-decoration: none;
+}
 .card {
   display: block;
   margin: 0.5rem auto;
