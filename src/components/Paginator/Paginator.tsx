@@ -25,7 +25,7 @@ export default function Paginator(props: Props) {
         const curPage = currentPage ? currentPage : 1;
         const classNamePageNumber =
           curPage === item ? styles.currentPage : styles.page;
-        if (item < 5 || item > arrayPages[arrayPages.length - 5]) {
+        if (item < 6 || item > arrayPages[arrayPages.length - 6]) {
           return (
             <NavLink
               to={urlToNewPage}
