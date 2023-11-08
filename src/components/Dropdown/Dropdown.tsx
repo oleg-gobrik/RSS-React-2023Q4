@@ -4,8 +4,8 @@ import { Props } from './types';
 export default function Dropdown(props: Props) {
   return (
     <div className={styles.dropdown}>
-      <label>
-        Pick a number cards:
+      <label className={styles.containerDropdown}>
+        <div className={styles.textLabel}>Pick a number cards:</div>
         <select
           name={props.name}
           className={styles.selector}

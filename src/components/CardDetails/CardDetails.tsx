@@ -28,11 +28,19 @@ export default function CardDetails() {
     <LoadingSpinner />
   ) : (
     <div className={styles.detailsContainer}>
-      <div className={`${styles.container} ${styles.name}`}>
+      <div className={styles.close}>
+        <Button additionalClass={styles.closeButton}>
+          <Link className={styles.link} to="..">
+            Close
+          </Link>
+        </Button>
+      </div>
+
+      <div className={styles.container}>
         <span className={styles.nameParameter}>Name:</span>
         <span className={styles.parameter}>{personDetails.name}</span>
       </div>
-      <div className={styles.gender}>
+      <div className={styles.container}>
         <span className={styles.nameParameter}>Gender:</span>
         <span className={styles.parameter}>{personDetails.gender}</span>
       </div>
@@ -60,11 +68,6 @@ export default function CardDetails() {
           <span className={styles.parameter}>{personDetails.hair_color}</span>
         </div>
       </div>
-      <Button>
-        <Link className={styles.link} to="..">
-          Close Details
-        </Link>
-      </Button>
     </div>
   );
 }

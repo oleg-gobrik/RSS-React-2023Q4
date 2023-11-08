@@ -1,9 +1,26 @@
 .selector {
   min-width: 3rem;
   font-size: medium;
-  padding: 0.3rem;
+  padding: 0.3rem 0 0.3rem 0.2rem;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  display: inline-block;
 }
 .dropdown {
   display: flex;
   justify-content: end;
+}
+.containerDropdown {
+  background-color: var(--dropdown-bg-color);
+  padding: 0.3rem 0.5rem;
+  border: 2px solid var(--dropdown-border-color);
+  border-radius: 1rem;
+  color: var(--dropdown-font-color);
+}
+.textLabel {
+  background-color: white;
+  display: inline-block;
+  padding: 0.16rem 0 0.16rem 0.5rem;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
 }

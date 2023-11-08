@@ -3,12 +3,12 @@
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
-  border: 2px solid darkgray;
-  background-color: whitesmoke;
-  color: gray;
+  border: 2px solid var(--button-border-color);
+  background-color: var(--button-bg-color);
+  color: var(--button-font-color);
   min-width: 3rem;
   padding: 0.3rem 0.5rem 0.3rem 0.5rem;
 }
 .Button:hover {
-  background-color: rgb(236, 237, 235);
+  border: 2px solid var(--button-hover-border-color);
 }

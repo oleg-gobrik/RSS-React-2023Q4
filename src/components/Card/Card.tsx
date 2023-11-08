@@ -26,9 +26,8 @@ export default function Card(props: Props) {
 
   return (
     <div className={styles.card}>
-      <Link to={resultUrl} className={styles.person}>
-        <div className={`${styles.container} ${styles.name}`}>
-          <span className={styles.nameParameter}>Name:</span>
+      <Link to={resultUrl} className={styles.link}>
+        <div className={styles.container}>
           <span className={styles.parameter}>{value.name}</span>
         </div>
       </Link>

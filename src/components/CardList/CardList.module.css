@@ -1,4 +1,7 @@
 .cardList {
   display: block;
   text-align: center;
+  border: 2px solid var(--list-border-color);
+  background-color: var(--list-bg-color);
+  border-radius: 1rem;
 }

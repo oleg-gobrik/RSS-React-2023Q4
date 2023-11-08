@@ -3,8 +3,45 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color: rgba(49, 49, 49, 0.87);
-  background-color: #c1e0f1;
+  --main-bg-color: #c1e0f1;
+  --main-font-color: #313131;
+
+  --searchBar-bg-color: #b0c4de;
+  --input-border-color: #7ea7a7;
+
+  --button-border-color: #a9a9a9;
+  --button-hover-border-color: #878787;
+  --button-bg-color: #ecedeb;
+  --button-font-color: #565656;
+  --button-close-bg-color: #c90404;
+  --button-close-font-color: #000000;
+
+  --element-border-color: #add8e6;
+  --element-bg-color: #ecedeb;
+  --element-font-color: #202242;
+  --element-hover-border-color: #7ea7a7;
+
+  --list-border-color: #add8e6;
+  --list-bg-color: #c1e0f1;
+
+  --details-border-color: #add8e6;
+  --details-bg-color: #c1e0f1;
+
+  --cur-paginator-bg-color: #ecedeb;
+  --cur-paginator-font-color: #d36060;
+  --paginator-bg-color: #c1e0f1;
+  --paginator-font-color: #202242;
+
+  --dropdown-bg-color: #7ea7a7;
+  --dropdown-font-color: #202242;
+  --dropdown-border-color: #add8e6;
+
+  --parameter-bg-color: #ecedeb;
+  --parameter-font-color: #202242;
+  --parameter-border-color: #ecedeb;
+
+  color: var(--main-font-color);
+  background-color: var(--main-bg-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

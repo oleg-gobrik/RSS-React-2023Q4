@@ -1,25 +1,39 @@
 .detailsContainer {
-  border: 2px solid lightblue;
-  height: 100%;
+  border: 2px solid var(--details-border-color);
+  background-color: var(--details-bg-color);
   border-radius: 1rem;
+  height: 99%;
 }
 .nameParameter {
   font-size: small;
   align-self: center;
 }
 .parameter {
-  background-color: whitesmoke;
+  background-color: var(--parameter-bg-color);
+  color: var(--parameter-font-color);
+  border: 2px solid var(--parameter-border-color);
   border-radius: 5px;
   padding: 0.1rem 0.3rem;
   margin: 0.2rem 0.3rem;
 }
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  display: block;
+  margin: 0.5rem;
+  text-align: center;
+  border-radius: 0.5rem;
 }
 
 .link {
   text-decoration: none;
-  color: black;
+  color: var(--button-font-color);
+}
+.close {
+  display: flex;
+  justify-content: end;
+}
+.closeButton {
+  background-color: var(--button-close-bg-color);
+}
+.closeButton a {
+  color: var(--button-close-font-color);
 }

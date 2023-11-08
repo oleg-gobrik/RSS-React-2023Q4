@@ -1,29 +1,32 @@
 .nameParameter {
   font-size: small;
   align-self: center;
-  color: black;
+  color: var(--element-font-color);
 }
 .parameter {
-  background-color: whitesmoke;
+  background-color: var(--parameter-bg-color);
   border-radius: 5px;
   padding: 0.1rem 0.3rem;
   margin: 0.2rem 0.3rem;
-  color: black;
+  color: var(--element-font-color);
 }
-.person {
+.link {
   text-decoration: none;
 }
+
 .card {
   display: block;
-  margin: 0.5rem auto;
+  margin: 0.5rem;
   text-align: center;
   border-radius: 0.5rem;
-  border: 2px solid lightblue;
+  background-color: var(--element-bg-color);
+  border: 2px solid var(--element-border-color);
+  color: var(--element-font-color);
   height: fit-content;
   max-width: 650px;
 }
 .card:hover {
-  border: 2px solid rgb(126, 167, 167);
+  border: 2px solid var(--element-hover-border-color);
 }
 .card p {
   margin: auto;

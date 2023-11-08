@@ -2,18 +2,22 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 1rem;
 }
 .page {
-  color: black;
+  color: var(--paginator-font-color);
+  background-color: var(--paginator-bg-color);
   margin: 0.1rem 0.5rem;
   padding: 0.3rem;
   cursor: pointer;
+  text-decoration: none;
 }
 .currentPage {
-  color: brown;
-  background-color: aquamarine;
+  color: var(--cur-paginator-font-color);
+  background-color: var(--cur-paginator-bg-color);
   border-radius: 10px;
   margin: 0.1rem 0.5rem;
   padding: 0.3rem;
   cursor: pointer;
+  text-decoration: none;
 }
