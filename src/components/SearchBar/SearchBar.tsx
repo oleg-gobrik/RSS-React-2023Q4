@@ -11,7 +11,7 @@ import {
 import { Props, StateData } from './types';
 import ErrorButton from '../ErrorButton/ErrorButton';
 import { useNavigate } from 'react-router-dom';
-import { dropdownCountCardsOnPage } from '../../utils/constParameter';
+import { dropdownCountCardsOnPage } from '../../utils/constants';
 import Dropdown from '../Dropdown/Dropdown';
 
 export default function SearchBar(props: Props) {
