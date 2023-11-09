@@ -3,26 +3,24 @@ import CardList from '../CardList/CardList';
 import Paginator from '../Paginator/Paginator';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { Outlet, useParams } from 'react-router-dom';
-import { useEffect, useContext, useState } from 'react';
-import { SearchContext } from '../../pages/SearchPage/SearchContext';
+import { useEffect, useState } from 'react';
+import { useSearchContext } from '../../utils/contexts/SearchContext';
 import { getSearchValue } from '../../utils/SearchLocalStorage';
+import { getPeopleParamBySearchAndPage } from '../../utils/ApiRequest/ApiRequestPeople';
 import {
   initialResponsePeople,
   ApiResponsePeople,
   Person,
 } from '../../utils/ApiResponse/ApiResponsePeople';
-import { getPeopleParamBySearchAndPage } from '../../utils/ApiRequest/ApiRequestPeople';
 
 export default function Searcher() {
-  const { density, searchValue } = useContext(SearchContext);
-  const [responseValue, setResponseValue] = useState<ApiResponsePeople>(
-    initialResponsePeople
-  );
+  const { density, searchValue, searchObject, setSearchObject } =
+    useSearchContext();
   const [isLoadingSearch, setIsLoadingSearch] = useState<boolean>(false);
   const { pageNumber } = useParams();
 
-  const pagesCount = Math.ceil(responseValue.count / density);
-  const originPagesCount: number = Math.ceil(responseValue.count / 10);
+  const pagesCount = Math.ceil(searchObject.count / density);
+  const originPagesCount: number = Math.ceil(searchObject.count / 10);
 
   const processingResult = (result: ApiResponsePeople[]) => {
     let responses: ApiResponsePeople = initialResponsePeople;
@@ -36,7 +34,7 @@ export default function Searcher() {
       previous: result[0].previous,
       next: result[0].next,
     };
-    setResponseValue(responses);
+    setSearchObject(responses);
   };
 
   useEffect(() => {
@@ -61,7 +59,7 @@ export default function Searcher() {
         pageNumber ? pageNumber : undefined
       )
         .then((result) => {
-          setResponseValue(result);
+          setSearchObject(result);
         })
         .catch((error) => console.log(error.message))
         .finally(() => setIsLoadingSearch(false));
@@ -74,7 +72,7 @@ export default function Searcher() {
   ) : (
     <section className={styles.searcher}>
       <div className={styles.resultsContainer}>
-        <CardList searchObject={responseValue} />
+        <CardList searchObject={searchObject} />
         <div className={styles.details}>
           <Outlet />
         </div>
