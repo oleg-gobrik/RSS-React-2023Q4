@@ -13,7 +13,7 @@ describe('RouterSearch component', () => {
   });
   test('RouterSearch renders with spinner', async () => {
     const router = createMemoryRouter(routerSearchConfig);
-    render(<RouterProvider router={router} />);
-    screen.debug();
+    const { container } = render(<RouterProvider router={router} />);
+    expect(container.getElementsByClassName('spinnerContainer').length).toBe(1);
   });
 });
