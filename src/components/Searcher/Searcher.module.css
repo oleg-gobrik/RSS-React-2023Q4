@@ -1,0 +1,14 @@
+.searcher {
+  text-align: center;
+}
+.resultsContainer {
+  display: flex;
+  gap: 1rem;
+}
+
+.resultsContainer > * {
+  flex: 1 1 0;
+}
+.details {
+  display: block;
+}
