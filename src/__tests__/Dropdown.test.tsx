@@ -1,9 +1,8 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Dropdown from '../components/Dropdown/Dropdown';
 import { dropdownCountCardsOnPage } from '../utils/constants';
 import userEvent from '@testing-library/user-event';
-import { useNavigate } from 'react-router-dom';
 
 const mockedOptions = [10, 20];
 

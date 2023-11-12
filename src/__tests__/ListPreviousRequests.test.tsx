@@ -1,13 +1,13 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import ListPreviousRequests from '../components/ListPreviousRequests/ListPreviousRequests';
-import userEvent from '@testing-library/user-event';
 
-let data = ['Sky', 'Darth', 'Palma'];
-const click = jest.fn((value: string) => {
+const data = ['Sky', 'Darth', 'Palma'];
+const click =
+  jest.fn(/*(value: string) => {
   //setValue to state
   data = [];
-});
+}*/);
 
 describe('ListPreviousRequests component', () => {
   test('ListPreviousRequests renders with data', () => {

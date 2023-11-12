@@ -1,8 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
 import ErrorButton from '../components/ErrorButton/ErrorButton';
-import React, { useState } from 'react';
+import React from 'react';
 
 describe('ErrorButton component', () => {
   test('Render the ErrorButton', () => {

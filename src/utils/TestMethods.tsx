@@ -1,8 +1,4 @@
-import {
-  RouterProvider,
-  createBrowserRouter,
-  createMemoryRouter,
-} from 'react-router-dom';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import { ApiResponsePeople } from './ApiResponse/ApiResponsePeople';
 import { SearchContext } from './contexts/SearchContext';
 import { render } from '@testing-library/react';

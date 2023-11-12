@@ -1,5 +1,4 @@
 import '@testing-library/jest-dom';
-import { screen } from '@testing-library/react';
 import Searcher from '../components/Searcher/Searcher';
 
 import {
