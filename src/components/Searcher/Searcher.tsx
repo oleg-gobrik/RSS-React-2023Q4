@@ -14,7 +14,7 @@ import {
 } from '../../utils/ApiResponse/ApiResponsePeople';
 
 export default function Searcher() {
-  const { density, searchValue, searchObject, setSearchObject } =
+  const { density, searchValue, searchObject, setSearchObjectHandler } =
     useSearchContext();
   const [isLoadingSearch, setIsLoadingSearch] = useState<boolean>(false);
   const { pageNumber } = useParams();
@@ -34,7 +34,7 @@ export default function Searcher() {
       previous: result[0].previous,
       next: result[0].next,
     };
-    setSearchObject(responses);
+    setSearchObjectHandler(responses);
   };
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function Searcher() {
         pageNumber ? pageNumber : undefined
       )
         .then((result) => {
-          setSearchObject(result);
+          setSearchObjectHandler(result);
         })
         .catch((error) => console.log(error.message))
         .finally(() => setIsLoadingSearch(false));

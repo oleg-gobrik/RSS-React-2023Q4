@@ -111,7 +111,7 @@ export default function SearchBar(props: Props) {
             onClickHandler={setValueInInput}
           />
         </div>
-        <Button onClick={clickSearch}>
+        <Button onClick={clickSearch} aria-label="Search">
           <img className={styles.searchIcon} src={search} alt="Search" />
         </Button>
       </div>

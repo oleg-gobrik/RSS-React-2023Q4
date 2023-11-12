@@ -14,11 +14,14 @@ export default function SearchPage() {
   const [searchObject, setSearchObject] = useState<ApiResponsePeople>(
     initialResponsePeople
   );
+  const setSearchObjectHandler = (value: ApiResponsePeople) => {
+    setSearchObject(value);
+  };
   const searchContextValue: ISearchContext = {
     searchValue,
     density,
     searchObject,
-    setSearchObject,
+    setSearchObjectHandler,
   };
   return (
     <>

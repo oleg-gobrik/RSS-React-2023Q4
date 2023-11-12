@@ -7,7 +7,7 @@ export interface ISearchContext {
   searchValue: string;
   density: number;
   searchObject: ApiResponsePeople;
-  setSearchObject: React.Dispatch<React.SetStateAction<ApiResponsePeople>>;
+  setSearchObjectHandler: (value: ApiResponsePeople) => void;
 }
 
 export const SearchContext = createContext<ISearchContext | undefined>(
