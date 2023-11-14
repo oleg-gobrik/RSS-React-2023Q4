@@ -1,10 +1,10 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import CardDetails from './CardDetails';
 import '@testing-library/jest-dom';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import userEvent from '@testing-library/user-event';
-import { testMockIdPerson, testMockPerson } from '../../utils/TestMethods';
+import { testMockIdPerson, testMockPerson } from '../../test/TestData';
 
 describe('CardDetails component', () => {
   const realFetch = global.fetch;
@@ -17,24 +17,24 @@ describe('CardDetails component', () => {
   });
 
   test('Should error response', async () => {
-    let called: boolean = false;
     const consoleSpy = jest.spyOn(global.console, 'log').mockImplementation();
     global.fetch = jest.fn(() => {
-      called = true;
       return Promise.reject(new Error('Test error card details'));
     }) as jest.Mock;
     jest.spyOn(global, 'fetch');
 
-    act(() => {
-      render(
-        <MemoryRouter initialEntries={[`/details/${testMockIdPerson}`]}>
-          <Routes>
-            <Route path="/details/:id" element={<CardDetails />} />
-          </Routes>
-        </MemoryRouter>
-      );
+    const { container } = render(
+      <MemoryRouter initialEntries={[`/details/${testMockIdPerson}`]}>
+        <Routes>
+          <Route path="/details/:id" element={<CardDetails />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(container.childElementCount).toEqual(0);
+      expect(consoleSpy).toHaveBeenCalled();
     });
-    expect(called).toBeTruthy();
     consoleSpy.mockClear();
   });
 

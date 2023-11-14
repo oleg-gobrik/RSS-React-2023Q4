@@ -3,7 +3,7 @@ import {
   getSearchInputLS,
   getSearchValue,
   saveSearchInputToLS,
-} from '../utils/SearchLocalStorage';
+} from './SearchLocalStorage';
 
 describe('Search Local storage tests: getSearchInputLS', () => {
   test('Return null if localStorage is empty', () => {

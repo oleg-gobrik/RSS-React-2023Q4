@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
 import SearchBar from './SearchBar';
+import { testMockProviderProps } from '../../test/TestData';
 import {
   ProviderProps,
   customRenderWithSearchContext,
-  testMockProviderProps,
-} from '../../utils/TestMethods';
+} from '../../test/TestMethods';
 import userEvent from '@testing-library/user-event';
 import { getSearchValue } from '../../utils/SearchLocalStorage';
 

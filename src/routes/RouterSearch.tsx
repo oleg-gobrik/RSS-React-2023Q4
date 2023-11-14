@@ -36,7 +36,6 @@ export const routerSearchConfig = [
 
 export default function RouterSearch() {
   const router = createBrowserRouter(routerSearchConfig);
-
   return (
     <>
       <RouterProvider router={router} />

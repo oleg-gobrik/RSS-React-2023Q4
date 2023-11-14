@@ -4,6 +4,7 @@ import { Person } from '../../utils/ApiResponse/ApiResponsePeople';
 import styles from './CardDetails.module.css';
 import Button from '../Button/Button';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import { getPeopleParamById } from '../../utils/ApiRequest/ApiRequestPeople';
 
 export default function CardDetails() {
   const { id } = useParams();
@@ -12,8 +13,7 @@ export default function CardDetails() {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      fetch(`https://swapi.dev/api/people/${id}`)
-        .then((response) => response.json())
+      getPeopleParamById(id)
         .then((result: Person) => {
           setPersonDetails(result);
         })
