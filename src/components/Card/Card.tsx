@@ -1,12 +1,11 @@
 import styles from './Card.module.css';
 import { Props } from './types';
 import { Link, useLocation } from 'react-router-dom';
-import { getIdFromUrl } from '../../utils/ApiRequest/ApiRequestPeople';
 
 export default function Card(props: Props) {
   const { value } = props;
 
-  const id = getIdFromUrl(value.url);
+  const id = value.url.slice(0, -1).split('/').pop();
   const location = useLocation();
   const isDetails = location.pathname.includes('/details/');
   const isPageNumber = location.pathname.includes('/page/');

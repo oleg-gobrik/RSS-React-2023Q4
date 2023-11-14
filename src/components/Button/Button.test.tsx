@@ -1,10 +1,14 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import Button from '../components/Button/Button';
+import Button from './Button';
 
 describe('Button component', () => {
   test('Render the Button', () => {
-    render(<Button>{<p>test</p>}</Button>);
+    render(
+      <Button>
+        <p>test</p>
+      </Button>
+    );
     const textButton = screen.getByText(/test/i);
     expect(textButton).toBeInTheDocument();
   });

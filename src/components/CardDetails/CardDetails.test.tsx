@@ -4,23 +4,10 @@ import '@testing-library/jest-dom';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import userEvent from '@testing-library/user-event';
+import { testMockIdPerson, testMockPerson } from '../../utils/TestMethods';
 
 describe('CardDetails component', () => {
-  const mockPerson = {
-    name: 'Anakin Skywalker',
-    height: '188',
-    mass: '84',
-    hair_color: 'blond',
-    skin_color: 'fair',
-    eye_color: 'blue',
-    birth_year: '41.9BBY',
-    gender: 'male',
-    url: 'https://swapi.dev/api/people/11/',
-  };
-  const mockId = '11';
-
   const realFetch = global.fetch;
-
   afterEach(() => {
     global.fetch = realFetch;
   });
@@ -40,7 +27,7 @@ describe('CardDetails component', () => {
 
     act(() => {
       render(
-        <MemoryRouter initialEntries={[`/details/${mockId}`]}>
+        <MemoryRouter initialEntries={[`/details/${testMockIdPerson}`]}>
           <Routes>
             <Route path="/details/:id" element={<CardDetails />} />
           </Routes>
@@ -54,14 +41,14 @@ describe('CardDetails component', () => {
   test('Should render the details of a person', async () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        json: () => Promise.resolve(mockPerson),
+        json: () => Promise.resolve(testMockPerson),
       })
     ) as jest.Mock;
     jest.spyOn(global, 'fetch');
 
     act(() => {
       render(
-        <MemoryRouter initialEntries={[`/details/${mockId}`]}>
+        <MemoryRouter initialEntries={[`/details/${testMockIdPerson}`]}>
           <Routes>
             <Route path="/details/:id" element={<CardDetails />} />
           </Routes>
@@ -69,39 +56,41 @@ describe('CardDetails component', () => {
       );
     });
 
-    await screen.findByText(mockPerson.name);
-    expect(screen.getByText(mockPerson.gender)).toBeInTheDocument();
-    expect(screen.getByText(mockPerson.mass)).toBeInTheDocument();
-    expect(screen.getByText(mockPerson.height)).toBeInTheDocument();
-    expect(screen.getByText(mockPerson.eye_color)).toBeInTheDocument();
-    expect(screen.getByText(mockPerson.hair_color)).toBeInTheDocument();
-    expect(screen.getByText(mockPerson.skin_color)).toBeInTheDocument();
+    await screen.findByText(testMockPerson.name);
+    expect(screen.getByText(testMockPerson.gender)).toBeInTheDocument();
+    expect(screen.getByText(testMockPerson.mass)).toBeInTheDocument();
+    expect(screen.getByText(testMockPerson.height)).toBeInTheDocument();
+    expect(screen.getByText(testMockPerson.eye_color)).toBeInTheDocument();
+    expect(screen.getByText(testMockPerson.hair_color)).toBeInTheDocument();
+    expect(screen.getByText(testMockPerson.skin_color)).toBeInTheDocument();
   });
 
   test('Should close details after render a person data', async () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        json: () => Promise.resolve(mockPerson),
+        json: () => Promise.resolve(testMockPerson),
       })
     ) as jest.Mock;
     jest.spyOn(global, 'fetch');
 
     act(() => {
       render(
-        <MemoryRouter initialEntries={[`/details/${mockId}`]}>
+        <MemoryRouter initialEntries={[`/details/${testMockIdPerson}`]}>
           <Routes>
             <Route path="/details/:id" element={<CardDetails />} />
+            <Route path="/" element={<span>Empty</span>} />
           </Routes>
         </MemoryRouter>
       );
     });
 
-    await screen.findByText(mockPerson.name);
-    expect(screen.getByText(mockPerson.gender)).toBeInTheDocument();
+    await screen.findByText(testMockPerson.name);
+    expect(screen.getByText(testMockPerson.gender)).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole('link', { name: /close/i }));
 
-    expect(screen.queryByText(mockPerson.name)).not.toBeInTheDocument();
-    expect(screen.queryByText(mockPerson.gender)).not.toBeInTheDocument();
+    expect(screen.queryByText('Empty')).toBeInTheDocument();
+    expect(screen.queryByText(testMockPerson.name)).not.toBeInTheDocument();
+    expect(screen.queryByText(testMockPerson.gender)).not.toBeInTheDocument();
   });
 });

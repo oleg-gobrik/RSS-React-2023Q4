@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import { routerSearchConfig } from '../routes/RouterSearch';
+import { routerSearchConfig } from './RouterSearch';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 
 describe('RouterSearch component', () => {

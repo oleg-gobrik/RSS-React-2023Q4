@@ -6,12 +6,22 @@ import { Outlet, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSearchContext } from '../../utils/contexts/SearchContext';
 import { getSearchValue } from '../../utils/SearchLocalStorage';
-import { getPeopleParamBySearchAndPage } from '../../utils/ApiRequest/ApiRequestPeople';
+// import { getPeopleParamBySearchAndPage } from '../../utils/ApiRequest/ApiRequestPeople';
 import {
   initialResponsePeople,
   ApiResponsePeople,
   Person,
 } from '../../utils/ApiResponse/ApiResponsePeople';
+
+const getPeopleParamBySearchAndPage = async (search: string, page?: string) => {
+  const response = await fetch(
+    page
+      ? `https://swapi.dev/api/people/?search=${search}&page=${page}`
+      : `https://swapi.dev/api/people/?search=${search}`
+  );
+  const result: ApiResponsePeople = await response.json();
+  return result;
+};
 
 export default function Searcher() {
   const { density, searchValue, searchObject, setSearchObjectHandler } =

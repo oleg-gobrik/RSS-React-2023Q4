@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import Dropdown from '../components/Dropdown/Dropdown';
-import { dropdownCountCardsOnPage } from '../utils/constants';
+import Dropdown from './Dropdown';
+import { dropdownCountCardsOnPage } from '../../utils/constants';
 import userEvent from '@testing-library/user-event';
 
 const mockedOptions = [10, 20];

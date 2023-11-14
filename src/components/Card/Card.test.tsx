@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import Card from '../components/Card/Card';
-import { Person } from '../utils/ApiResponse/ApiResponsePeople';
+import Card from './Card';
+import { Person } from '../../utils/ApiResponse/ApiResponsePeople';
 import { MemoryRouter } from 'react-router-dom';
 
 const testPerson: Person = {
@@ -26,17 +26,6 @@ describe('Card component', () => {
     const spanText = screen.getByText(testPerson.name);
     expect(spanText).toBeInTheDocument();
   });
-
-  //TODO: this test need to write on searcher.
-  // test('Click on a card opens a detailed card component', () => {
-  //   render(
-  //     <MemoryRouter>
-  //       <Card value={testPerson} />
-  //     </MemoryRouter>
-  //   );
-  //   const spanText = screen.getByText(testPerson.name);
-  //   expect(spanText).toBeInTheDocument();
-  // });
 
   test('Link Card to detail is correct from home', () => {
     render(

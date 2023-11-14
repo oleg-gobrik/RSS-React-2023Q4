@@ -1,9 +1,42 @@
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
-import { ApiResponsePeople } from './ApiResponse/ApiResponsePeople';
+import {
+  MemoryRouter,
+  Route,
+  RouterProvider,
+  Routes,
+  createMemoryRouter,
+} from 'react-router-dom';
+import { ApiResponsePeople, Person } from './ApiResponse/ApiResponsePeople';
 import { SearchContext } from './contexts/SearchContext';
 import { render } from '@testing-library/react';
 import ErrorMatchPage from '../components/ErrorMatchPage/ErrorMatchPage';
 
+export const testMockIdPerson = '4';
+export const testMockPerson: Person = {
+  name: 'Darth Vader',
+  eye_color: 'yellow',
+  gender: 'male',
+  hair_color: 'none',
+  url: 'https://swapi.dev/api/people/4/',
+  birth_year: '41.9BBY',
+  height: '202',
+  mass: '136',
+  skin_color: 'white',
+};
+export const testMockPeople: ApiResponsePeople = {
+  count: 1,
+  next: null,
+  previous: null,
+  results: [{ ...testMockPerson }],
+};
+
+export const testMockProviderProps = {
+  searchValue: 'Darth Vader',
+  density: 10,
+  searchObject: testMockPeople,
+  setSearchObjectHandler: jest.fn((value: ApiResponsePeople) => {
+    testMockProviderProps.searchObject = value;
+  }),
+};
 export interface ProviderProps {
   searchValue: string;
   density: number;
@@ -30,29 +63,26 @@ export const customRenderProviderWithSearchContext = (
   return render(<RouterProvider router={router} />);
 };
 
-export const testSearchPeople: ApiResponsePeople = {
-  count: 1,
-  next: null,
-  previous: null,
-  results: [
-    {
-      name: 'Anakin Skywalker',
-      height: '188',
-      mass: '84',
-      hair_color: 'blond',
-      skin_color: 'fair',
-      eye_color: 'blue',
-      birth_year: '41.9BBY',
-      gender: 'male',
-      url: 'https://swapi.dev/api/people/11/',
-    },
-  ],
-};
-export const testProviderProps = {
-  searchValue: 'Anakin Skywalker',
-  density: 10,
-  searchObject: testSearchPeople,
-  setSearchObjectHandler: jest.fn((value: ApiResponsePeople) => {
-    testProviderProps.searchObject = value;
-  }),
+export const customRenderWithSearchContext = (
+  ui: React.ReactNode,
+  { providerProps }: { providerProps: ProviderProps },
+  initialEntriesPathname: string = '/test',
+  routePathnameUI: string = '/test',
+  routePathnameEmpty: string = '/'
+) => {
+  return render(
+    <MemoryRouter initialEntries={[initialEntriesPathname]}>
+      <Routes>
+        <Route
+          path={routePathnameUI}
+          element={
+            <SearchContext.Provider value={providerProps}>
+              {ui}
+            </SearchContext.Provider>
+          }
+        />
+        <Route path={routePathnameEmpty} element={<span>Test</span>} />
+      </Routes>
+    </MemoryRouter>
+  );
 };

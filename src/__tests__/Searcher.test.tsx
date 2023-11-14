@@ -1,20 +1,37 @@
 import '@testing-library/jest-dom';
+import { screen } from '@testing-library/react';
 import Searcher from '../components/Searcher/Searcher';
-
 import {
   ProviderProps,
-  customRenderProviderWithSearchContext,
-  testProviderProps,
+  customRenderWithSearchContext,
+  testMockPeople,
+  testMockProviderProps,
 } from '../utils/TestMethods';
 
 describe('Searcher component', () => {
   let providerProps: ProviderProps;
   beforeEach(() => {
-    providerProps = testProviderProps;
+    providerProps = testMockProviderProps;
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(testMockPeople),
+      })
+    ) as jest.Mock;
+    jest.spyOn(global, 'fetch');
+  });
+
+  const realFetch = global.fetch;
+  afterEach(() => {
+    global.fetch = realFetch;
+  });
+
+  afterAll(() => {
+    jest.clearAllMocks();
   });
 
   test('Searcher renders', () => {
-    customRenderProviderWithSearchContext(<Searcher />, { providerProps });
-    expect(true).toBeTruthy();
+    customRenderWithSearchContext(<Searcher />, { providerProps });
+    screen.debug();
+    //expect(true).toBeTruthy();
   });
 });

@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 
 describe('Loading Spinner component', () => {
   test('Render loading', () => {

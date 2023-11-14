@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import Paginator from '../components/Paginator/Paginator';
+import Paginator from './Paginator';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('Paginator component', () => {

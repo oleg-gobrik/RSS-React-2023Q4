@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import ErrorButton from '../components/ErrorButton/ErrorButton';
+import ErrorButton from './ErrorButton';
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 
 describe('ErrorButton component', () => {
   test('Render the ErrorButton', () => {
@@ -22,20 +23,17 @@ describe('ErrorButton component', () => {
     expect(() => render(<ErrorButton />)).toThrow('Test error boundary.');
   });
 
-  // test("ErrorButton click change value hasError", () => {
+  test('ErrorButton click change value hasError', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
 
-  //   const setHasError = jest.fn();
-  //   const useStateMock = () => [false, setHasError];
+    const setHasError = jest.fn();
+    React.useState = jest.fn(() => [false, setHasError]);
 
-  //   //@ts-ignore
-  //   jest.spyOn(React, 'useState').mockImplementation(useStateMock);
+    render(<ErrorButton />);
+    const button = screen.getByRole('button');
 
-  //   render(<ErrorButton />);
-  //   const button = screen.getByRole('button');
+    await userEvent.click(button);
 
-  //   // screen.debug();
-  //   userEvent.click(button);
-
-  //   expect(setHasError).toHaveBeenCalledWith(true);
-  // });
+    expect(setHasError).toHaveBeenCalledWith(true);
+  });
 });
