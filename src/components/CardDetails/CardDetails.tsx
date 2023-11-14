@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getPeopleParamById } from '../../utils/ApiRequest/ApiRequestPeople';
 import { Person } from '../../utils/ApiResponse/ApiResponsePeople';
 import styles from './CardDetails.module.css';
 import Button from '../Button/Button';
@@ -13,8 +12,9 @@ export default function CardDetails() {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      getPeopleParamById(id)
-        .then((result) => {
+      fetch(`https://swapi.dev/api/people/${id}`)
+        .then(response => response.json())
+        .then((result: Person) => {
           setPersonDetails(result);
         })
         .catch((error) => console.log(error.message))
