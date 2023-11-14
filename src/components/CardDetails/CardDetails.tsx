@@ -13,7 +13,7 @@ export default function CardDetails() {
     if (id) {
       setLoading(true);
       fetch(`https://swapi.dev/api/people/${id}`)
-        .then(response => response.json())
+        .then((response) => response.json())
         .then((result: Person) => {
           setPersonDetails(result);
         })

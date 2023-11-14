@@ -18,7 +18,7 @@ describe('CardDetails component', () => {
     url: 'https://swapi.dev/api/people/11/',
   };
   const mockId = '11';
-  
+
   const realFetch = global.fetch;
 
   afterEach(() => {
@@ -28,25 +28,27 @@ describe('CardDetails component', () => {
   afterAll(() => {
     jest.clearAllMocks();
   });
-  
+
   test('Should error response', async () => {
     let called: boolean = false;
     const consoleSpy = jest.spyOn(global.console, 'log').mockImplementation();
-    global.fetch = jest.fn(() =>{
+    global.fetch = jest.fn(() => {
       called = true;
-      return Promise.reject(new Error('Test error card details'))
+      return Promise.reject(new Error('Test error card details'));
     }) as jest.Mock;
     jest.spyOn(global, 'fetch');
 
-    act( ()=>{
-      render(<MemoryRouter initialEntries={[`/details/${mockId}`]}>
-        <Routes>
-          <Route path="/details/:id" element={<CardDetails />} />
-        </Routes>
-      </MemoryRouter>);
+    act(() => {
+      render(
+        <MemoryRouter initialEntries={[`/details/${mockId}`]}>
+          <Routes>
+            <Route path="/details/:id" element={<CardDetails />} />
+          </Routes>
+        </MemoryRouter>
+      );
     });
     expect(called).toBeTruthy();
-    consoleSpy.mockClear()
+    consoleSpy.mockClear();
   });
 
   test('Should render the details of a person', async () => {
@@ -57,11 +59,15 @@ describe('CardDetails component', () => {
     ) as jest.Mock;
     jest.spyOn(global, 'fetch');
 
-    act(()=>{render(<MemoryRouter initialEntries={[`/details/${mockId}`]}>
-        <Routes>
-          <Route path="/details/:id" element={<CardDetails />} />
-        </Routes>
-      </MemoryRouter>);});
+    act(() => {
+      render(
+        <MemoryRouter initialEntries={[`/details/${mockId}`]}>
+          <Routes>
+            <Route path="/details/:id" element={<CardDetails />} />
+          </Routes>
+        </MemoryRouter>
+      );
+    });
 
     await screen.findByText(mockPerson.name);
     expect(screen.getByText(mockPerson.gender)).toBeInTheDocument();
@@ -80,11 +86,15 @@ describe('CardDetails component', () => {
     ) as jest.Mock;
     jest.spyOn(global, 'fetch');
 
-    act(()=>{render(<MemoryRouter initialEntries={[`/details/${mockId}`]}>
-        <Routes>
-          <Route path="/details/:id" element={<CardDetails />} />
-        </Routes>
-      </MemoryRouter>);});
+    act(() => {
+      render(
+        <MemoryRouter initialEntries={[`/details/${mockId}`]}>
+          <Routes>
+            <Route path="/details/:id" element={<CardDetails />} />
+          </Routes>
+        </MemoryRouter>
+      );
+    });
 
     await screen.findByText(mockPerson.name);
     expect(screen.getByText(mockPerson.gender)).toBeInTheDocument();
@@ -93,6 +103,5 @@ describe('CardDetails component', () => {
 
     expect(screen.queryByText(mockPerson.name)).not.toBeInTheDocument();
     expect(screen.queryByText(mockPerson.gender)).not.toBeInTheDocument();
-
   });
 });
