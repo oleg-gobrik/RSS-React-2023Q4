@@ -5,9 +5,8 @@ import LoadingSpinner from './LoadingSpinner';
 describe('Loading Spinner component', () => {
   test('Render loading', () => {
     const { container } = render(<LoadingSpinner />);
-    const spinner = container.getElementsByClassName('spinnerContainer');
-    const loading = container.getElementsByClassName('loadingSpinner');
-    expect(spinner.length).toBe(1);
-    expect(loading.length).toBe(1);
+
+    expect(container.getElementsByClassName('spinnerContainer').length).toBe(1);
+    expect(container.getElementsByClassName('loadingSpinner').length).toBe(1);
   });
 });

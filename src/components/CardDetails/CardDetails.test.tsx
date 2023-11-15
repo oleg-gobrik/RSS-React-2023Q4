@@ -2,7 +2,6 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import CardDetails from './CardDetails';
 import '@testing-library/jest-dom';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-
 import userEvent from '@testing-library/user-event';
 import { testMockIdPerson, testMockPerson } from '../../test/TestData';
 

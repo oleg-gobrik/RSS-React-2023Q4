@@ -19,10 +19,6 @@ export default function Card(props: Props) {
     resultUrl = `${location.pathname}details/${id}`;
   }
 
-  // const urlToNewDetail = `${location.pathname}${isDetails ? '../../../' : ''}${
-  //   isPageNumber && isDetails ? '.' : ''
-  // }${isPageNumber ? '/' : ''}details/${id}`;
-
   return (
     <div className={styles.card}>
       <Link to={resultUrl} className={styles.link}>
