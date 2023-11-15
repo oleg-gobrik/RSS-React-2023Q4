@@ -11,6 +11,7 @@ import {
   ProviderProps,
   customRenderWithSearchContext,
 } from '../../test/TestMethods';
+import userEvent from '@testing-library/user-event';
 
 describe('Searcher component', () => {
   let providerProps: ProviderProps;
@@ -85,5 +86,27 @@ describe('Searcher component', () => {
     await screen.findByText('1');
     expect(consoleSpy).toHaveBeenCalledWith('Test');
     consoleSpy.mockClear();
+  });
+
+  test('Should renders second page after click on page link', async () => {
+    providerProps = testMockProviderProps;
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(testMockPeople),
+      })
+    ) as jest.Mock;
+    const { container } = customRenderWithSearchContext(<Searcher />, {
+      providerProps,
+    });
+
+    expect(container.getElementsByClassName('spinnerContainer').length).toBe(1);
+
+    await screen.findByText('Obi-Wan Kenobi');
+    expect(screen.getByText('Obi-Wan Kenobi')).toBeInTheDocument();
+
+    const link = screen.getByText('2');
+    userEvent.click(link);
+    await screen.findByText('Wat Tambor');
+    expect(screen.getByText('Wat Tambor')).toBeInTheDocument();
   });
 });

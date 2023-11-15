@@ -23,10 +23,6 @@ describe('CardList component', () => {
       </MemoryRouter>
     );
     const quantityCards = container.getElementsByClassName('card');
-    if (testMockPeople.count > 10) {
-      expect(quantityCards.length).toBe(10);
-    } else {
-      expect(quantityCards.length).toBe(testMockPeople.count);
-    }
+    expect(quantityCards.length).toBe(testMockPeople.count);
   });
 });
