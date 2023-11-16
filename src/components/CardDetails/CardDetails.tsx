@@ -10,7 +10,6 @@ export default function CardDetails() {
   const { id } = useParams();
   const [personDetails, setPersonDetails] = useState<Person | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const photo: string = `https://vieraboschkova.github.io/swapi-gallery/static/assets/img/people/${id}.jpg`;
   useEffect(() => {
     if (id) {
       setLoading(true);
@@ -34,45 +33,36 @@ export default function CardDetails() {
             </Link>
           </Button>
         </div>
-        <img className={styles.photo} src={photo} alt="Photo person" />
-        <div className={styles.info}>
+        <div className={styles.container}>
+          <span className={styles.nameParameter}>Name:</span>
+          <span className={styles.parameter}>{personDetails.name}</span>
+        </div>
+        <div className={styles.container}>
+          <span className={styles.nameParameter}>Gender:</span>
+          <span className={styles.parameter}>{personDetails.gender}</span>
+        </div>
+        <div className={styles.size}>
           <div className={styles.container}>
-            <span className={styles.nameParameter}>Name:</span>
-            <span className={styles.parameter}>{personDetails.name}</span>
+            <span className={styles.nameParameter}>Height:</span>
+            <span className={styles.parameter}>{personDetails.height}</span>
           </div>
           <div className={styles.container}>
-            <span className={styles.nameParameter}>Gender:</span>
-            <span className={styles.parameter}>{personDetails.gender}</span>
+            <span className={styles.nameParameter}>Mass:</span>
+            <span className={styles.parameter}>{personDetails.mass}</span>
           </div>
-          <div className={styles.size}>
-            <div className={styles.container}>
-              <span className={styles.nameParameter}>Height:</span>
-              <span className={styles.parameter}>{personDetails.height}</span>
-            </div>
-            <div className={styles.container}>
-              <span className={styles.nameParameter}>Mass:</span>
-              <span className={styles.parameter}>{personDetails.mass}</span>
-            </div>
+        </div>
+        <div className={styles.colors}>
+          <div className={styles.container}>
+            <span className={styles.nameParameter}>Skin color:</span>
+            <span className={styles.parameter}>{personDetails.skin_color}</span>
           </div>
-          <div className={styles.colors}>
-            <div className={styles.container}>
-              <span className={styles.nameParameter}>Skin color:</span>
-              <span className={styles.parameter}>
-                {personDetails.skin_color}
-              </span>
-            </div>
-            <div className={styles.container}>
-              <span className={styles.nameParameter}>Eye color:</span>
-              <span className={styles.parameter}>
-                {personDetails.eye_color}
-              </span>
-            </div>
-            <div className={styles.container}>
-              <span className={styles.nameParameter}>Hair color:</span>
-              <span className={styles.parameter}>
-                {personDetails.hair_color}
-              </span>
-            </div>
+          <div className={styles.container}>
+            <span className={styles.nameParameter}>Eye color:</span>
+            <span className={styles.parameter}>{personDetails.eye_color}</span>
+          </div>
+          <div className={styles.container}>
+            <span className={styles.nameParameter}>Hair color:</span>
+            <span className={styles.parameter}>{personDetails.hair_color}</span>
           </div>
         </div>
       </div>
