@@ -24,8 +24,8 @@ describe('Searcher component', () => {
     jest.clearAllMocks();
   });
 
-  test('Should renders spinner loading and after card with name', async () => {
-    providerProps = testMockProviderProps;
+  test('Should render spinner loading and after card with name', async () => {
+    providerProps = JSON.parse(JSON.stringify(testMockProviderProps));
     global.fetch = jest.fn(() =>
       Promise.resolve({
         json: () => Promise.resolve(testMockPeople),
@@ -41,8 +41,10 @@ describe('Searcher component', () => {
     expect(screen.getByText(testMockPerson.name)).toBeInTheDocument();
   });
 
-  test('Should renders spinner loading and after card with name with density 20', async () => {
-    providerProps = testMockProviderPropsAndDensity20;
+  test('Should render spinner loading and after card with name with density 20', async () => {
+    providerProps = JSON.parse(
+      JSON.stringify(testMockProviderPropsAndDensity20)
+    );
     global.fetch = jest.fn(() =>
       Promise.resolve({
         json: () => Promise.resolve(testMockPeople),
@@ -59,7 +61,7 @@ describe('Searcher component', () => {
   });
 
   test('Should throw error after fetch with density 10', async () => {
-    providerProps = testMockProviderProps;
+    providerProps = JSON.parse(JSON.stringify(testMockProviderProps));
     const consoleSpy = jest.spyOn(global.console, 'log').mockImplementation();
     global.fetch = jest.fn(() => {
       return Promise.reject(new Error('Test'));
@@ -74,7 +76,9 @@ describe('Searcher component', () => {
   });
 
   test('Should throw error after fetch with density 20', async () => {
-    providerProps = testMockProviderPropsAndDensity20;
+    providerProps = JSON.parse(
+      JSON.stringify(testMockProviderPropsAndDensity20)
+    );
     const consoleSpy = jest.spyOn(global.console, 'log').mockImplementation();
     global.fetch = jest.fn(() => {
       return Promise.reject(new Error('Test'));
@@ -88,8 +92,8 @@ describe('Searcher component', () => {
     consoleSpy.mockClear();
   });
 
-  test('Should renders second page after click on page link', async () => {
-    providerProps = testMockProviderProps;
+  test('Should render second page after click on page link', async () => {
+    providerProps = JSON.parse(JSON.stringify(testMockProviderProps));
     global.fetch = jest.fn(() =>
       Promise.resolve({
         json: () => Promise.resolve(testMockPeople),

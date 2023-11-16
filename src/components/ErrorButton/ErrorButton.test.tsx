@@ -5,13 +5,13 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 
 describe('ErrorButton component', () => {
-  test('Render the ErrorButton', () => {
+  test('Should render the ErrorButton', () => {
     render(<ErrorButton />);
     const errorButton = screen.getByText(/Make error/i);
     expect(errorButton).toBeInTheDocument();
   });
 
-  test('ErrorButton throw an error when the hasError is true', () => {
+  test('Should throw an error when the hasError is true', () => {
     const consoleError = jest.spyOn(console, 'error');
     consoleError.mockImplementation(() => {});
 
@@ -23,7 +23,7 @@ describe('ErrorButton component', () => {
     expect(() => render(<ErrorButton />)).toThrow('Test error boundary.');
   });
 
-  test('ErrorButton click change value hasError', async () => {
+  test('Should change value hasError after click', async () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const setHasError = jest.fn();

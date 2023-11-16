@@ -13,7 +13,7 @@ describe('App', () => {
     jest.clearAllMocks();
   });
 
-  test('Renders the main page', async () => {
+  test('Should renders the main page', async () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         json: () => Promise.resolve(testMockPeople),

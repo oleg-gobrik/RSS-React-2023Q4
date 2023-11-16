@@ -6,7 +6,7 @@ const data = ['Sky', 'Darth', 'Palma'];
 const click = jest.fn();
 
 describe('ListPreviousRequests component', () => {
-  test('ListPreviousRequests renders with data', () => {
+  test('Should render ListPreviousRequests with data', () => {
     render(
       <ListPreviousRequests previousRequests={data} onClickHandler={click} />
     );
@@ -15,7 +15,7 @@ describe('ListPreviousRequests component', () => {
       expect(screen.getByText(item)).toBeInTheDocument();
     });
   });
-  test('ListPreviousRequests renders with undefined', () => {
+  test('Should render ListPreviousRequests with undefined', () => {
     render(
       <ListPreviousRequests
         previousRequests={undefined}

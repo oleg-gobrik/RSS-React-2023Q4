@@ -4,7 +4,7 @@ import Paginator from './Paginator';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('Paginator component', () => {
-  test('Paginator renders 4 pages', () => {
+  test('Should render component 4 pages', () => {
     const { container } = render(
       <MemoryRouter>
         <Paginator countPages={4} currentPage={1} />
@@ -14,7 +14,7 @@ describe('Paginator component', () => {
     expect(quantityCards.length).toBe(4);
   });
 
-  test('Paginator renders 15 pages', () => {
+  test('Should render component 15 pages', () => {
     const { container } = render(
       <MemoryRouter>
         <Paginator countPages={15} currentPage={1} />
@@ -24,7 +24,7 @@ describe('Paginator component', () => {
     expect(quantityCards.length).toBe(10);
   });
 
-  test('Link correct', () => {
+  test('Should right set link to page', () => {
     render(
       <MemoryRouter>
         <Paginator countPages={5} currentPage={1} />
@@ -37,7 +37,7 @@ describe('Paginator component', () => {
     expect(linkToPage).toHaveAttribute('href', urlToPage);
   });
 
-  test('Link correct from page 1', () => {
+  test('Should right set link to page from page 1', () => {
     render(
       <MemoryRouter initialEntries={[{ pathname: '/page/1' }]}>
         <Paginator countPages={5} currentPage={1} />
@@ -49,7 +49,7 @@ describe('Paginator component', () => {
     expect(linkToPage).toHaveAttribute('href', urlToPage);
   });
 
-  test('Current page default on first page', () => {
+  test('Should set by default page on first', () => {
     render(
       <MemoryRouter>
         <Paginator countPages={5} currentPage={undefined} />

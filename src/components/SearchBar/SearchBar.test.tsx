@@ -16,7 +16,7 @@ describe('SearchBar component', () => {
   let providerProps: ProviderProps;
 
   beforeEach(() => {
-    providerProps = testMockProviderProps;
+    providerProps = JSON.parse(JSON.stringify(testMockProviderProps));
   });
 
   afterEach(() => {

@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 const mockedOptions = [10, 20];
 
 describe('Dropdown component', () => {
-  test('Render dropdown', () => {
+  test('Should render dropdown', () => {
     const changeDropdownValue = jest.fn();
     render(
       <Dropdown
@@ -19,7 +19,7 @@ describe('Dropdown component', () => {
     expect((screen.getByText('10') as HTMLOptionElement).selected).toBeTruthy();
     expect((screen.getByText('20') as HTMLOptionElement).selected).toBeFalsy();
   });
-  test('Change value dropdown', async () => {
+  test('Should change value dropdown', async () => {
     const changeDropdownValue = jest.fn();
     const user = userEvent.setup();
 

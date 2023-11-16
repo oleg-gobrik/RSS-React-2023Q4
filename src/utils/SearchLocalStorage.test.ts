@@ -5,33 +5,30 @@ import {
   saveSearchInputToLS,
 } from './SearchLocalStorage';
 
-describe('Search Local storage tests: getSearchInputLS', () => {
-  test('Return null if localStorage is empty', () => {
+describe('Search Local storage tests', () => {
+  test('Should return null if localStorage is empty', () => {
     localStorage.clear();
     expect(getSearchInputLS()).toBeUndefined();
   });
 
-  test('Return an array of strings if localStorage has data', () => {
+  test('Should return an array of strings if localStorage has data', () => {
     const mockData = ['Sky', 'Darth'];
     localStorage.setItem('searchInput', JSON.stringify(mockData));
     expect(getSearchInputLS()).toEqual(mockData);
   });
-});
-describe('Search Local storage tests: getSearchValue', () => {
-  it('Empty string when localStorage is empty', () => {
+
+  test('Should return empty string when localStorage is empty', () => {
     localStorage.clear();
     expect(getSearchValue()).toEqual('');
   });
 
-  it('Get the last search value when localStorage is not empty', () => {
+  test('Should get the last search value when localStorage is not empty', () => {
     const searchInput = ['Sky', 'Darth', 'Fet'];
     localStorage.setItem('searchInput', JSON.stringify(searchInput));
     expect(getSearchValue()).toEqual('Fet');
   });
-});
 
-describe('Search Local storage tests: saveSearchInputToLS', () => {
-  it('Save value to empty localStorage', () => {
+  test('Should save value to empty localStorage', () => {
     localStorage.clear();
     saveSearchInputToLS('Darth');
     expect(localStorage.getItem('searchInput')).toEqual(
@@ -39,7 +36,7 @@ describe('Search Local storage tests: saveSearchInputToLS', () => {
     );
   });
 
-  it('Add value to localStorage', () => {
+  test('Should add value to localStorage', () => {
     const searchInput = ['Darth'];
     localStorage.setItem('searchInput', JSON.stringify(searchInput));
     saveSearchInputToLS('Sky');
@@ -48,7 +45,7 @@ describe('Search Local storage tests: saveSearchInputToLS', () => {
     );
   });
 
-  it('Replace the last search element from localStorage', () => {
+  test('Should replace the last search element from localStorage', () => {
     const searchInput = ['Darth', 'Sky'];
     localStorage.setItem('searchInput', JSON.stringify(searchInput));
     saveSearchInputToLS('Darth');
