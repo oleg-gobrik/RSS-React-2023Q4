@@ -1,5 +1,6 @@
 .searcher {
   text-align: center;
+  justify-content: center;
 }
 .resultsContainer {
   display: flex;

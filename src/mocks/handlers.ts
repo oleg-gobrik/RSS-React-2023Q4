@@ -1,9 +1,10 @@
-import { http, HttpResponse } from 'msw';
-
+import { HttpResponse, http } from 'msw';
+import { testMockPeople, testMockPerson } from '../test/TestData';
 export const handlers = [
-  http.get(`https://swapi.dev/api/people/4`, ({ request }) => {
-    console.log('Captured a "GET /posts" request');
-    console.log('Just observing:', request.method, request.url);
-    return HttpResponse.json(request);
+  http.get('https://swapi.dev/api/people/:id', () => {
+    return HttpResponse.json(testMockPerson);
+  }),
+  http.get('https://swapi.dev/api/people', () => {
+    return HttpResponse.json(testMockPeople);
   }),
 ];

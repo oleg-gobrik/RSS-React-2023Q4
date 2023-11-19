@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Props } from './types';
 
-export default function Paginator(props: Props) {
-  const { countPages, currentPage } = props;
+export default function Paginator({ countPages, currentPage }: Props) {
   const [arrayPages, setArrayPages] = useState<number[]>([]);
   const location = useLocation();
 
@@ -34,8 +33,6 @@ export default function Paginator(props: Props) {
               {item}
             </Link>
           );
-        } else {
-          return;
         }
       })}
     </div>

@@ -14,11 +14,12 @@ export default function Dropdown(props: Props) {
             props.changeValueHandler(+event.target.value);
           }}
         >
-          {props.items.map((item) => (
-            <option className={styles.dropdownItem} key={item} value={item}>
-              {item}
-            </option>
-          ))}
+          {props.items.length &&
+            props.items.map((item) => (
+              <option className={styles.dropdownItem} key={item} value={item}>
+                {item}
+              </option>
+            ))}
         </select>
       </label>
     </div>

@@ -1,19 +1,21 @@
 import styles from './ListPreviousRequests.module.css';
 import { Props } from './types';
 
-export default function ListPreviousRequests(props: Props) {
-  const { previousRequests, onClickHandler } = props;
-  if (!previousRequests || previousRequests.length === 0) {
-    return null;
-  }
+export default function ListPreviousRequests({
+  previousRequests,
+  onClickHandler,
+}: Props) {
   return (
-    <ul className={styles.listRequests}>
-      {previousRequests.length !== 0 &&
-        previousRequests.map((item) => (
-          <li key={item} id={item} onClick={() => onClickHandler(item)}>
-            {item}
-          </li>
-        ))}
-    </ul>
+    <>
+      {previousRequests && previousRequests.length !== 0 && (
+        <ul className={styles.listRequests}>
+          {previousRequests.map((item) => (
+            <li key={item} id={item} onClick={() => onClickHandler(item)}>
+              {item}
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   );
 }

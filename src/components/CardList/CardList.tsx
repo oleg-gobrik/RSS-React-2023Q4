@@ -4,16 +4,13 @@ import { Props } from './types';
 
 export default function CardList(props: Props) {
   const { searchObject } = props;
-  if (searchObject.count === 0) {
-    return <div>Nothing was found for this query.</div>;
-  } else {
-    return (
-      <div className={styles.cardList}>
-        {searchObject.results &&
-          searchObject.results.map((item, index) => (
-            <Card key={index} value={item} />
-          ))}
-      </div>
-    );
-  }
+  return (
+    <div className={styles.cardList}>
+      {searchObject.count === 0 && <div>Nothing was found for this query.</div>}
+      {searchObject.results &&
+        searchObject.results.map((item, index) => (
+          <Card key={index} value={item} />
+        ))}
+    </div>
+  );
 }

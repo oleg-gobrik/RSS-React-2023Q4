@@ -13,12 +13,16 @@ import ErrorButton from '../ErrorButton/ErrorButton';
 import { useNavigate } from 'react-router-dom';
 import { dropdownCountCardsOnPage } from '../../utils/constants';
 import Dropdown from '../Dropdown/Dropdown';
+import { useAppDispatch } from '../../store/hooks';
+import { setSearchValue } from '../../store/searchSlice/searchSlice';
 
 export default function SearchBar(props: Props) {
   const [searchBarData, setSearchBarData] = useState<StateData>({
     inputValue: '',
     resultArray: [],
   });
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -70,7 +74,6 @@ export default function SearchBar(props: Props) {
 
   const clickSearch = () => {
     saveSearchInputToLS(searchBarData.inputValue.trim());
-    props.setSearchValue(searchBarData.inputValue.trim());
 
     navigate('');
 
@@ -80,6 +83,8 @@ export default function SearchBar(props: Props) {
         resultArray: [],
       };
     });
+
+    dispatch(setSearchValue({ value: searchBarData.inputValue.trim() }));
   };
 
   const changeDropdownValue = (value: number) => {

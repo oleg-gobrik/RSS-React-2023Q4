@@ -3,84 +3,72 @@ import CardList from '../CardList/CardList';
 import Paginator from '../Paginator/Paginator';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { Outlet, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSearchContext } from '../../utils/contexts/SearchContext';
-import { getSearchValue } from '../../utils/SearchLocalStorage';
-import { getPeopleParamBySearchAndPage } from '../../utils/ApiRequest/ApiRequestPeople';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
-  initialResponsePeople,
-  ApiResponsePeople,
-  Person,
-} from '../../utils/ApiResponse/ApiResponsePeople';
+  fetchSearch,
+  setIsLoadingSearch,
+  setSearch,
+} from '../../store/searchResultSlice/searchResultSlice';
+import ErrorPage from '../../pages/ErrorPage/ErrorPage';
+import { searchAPI } from '../../utils/services/SearchService';
 
 export default function Searcher() {
-  const { density, searchValue, searchObject, setSearchObjectHandler } =
-    useSearchContext();
-  const [isLoadingSearch, setIsLoadingSearch] = useState<boolean>(false);
+  const { density } = useSearchContext();
   const { pageNumber } = useParams();
 
-  const pagesCount = Math.ceil(searchObject.count / density);
-  const originPagesCount: number = Math.ceil(searchObject.count / 10);
+  const searchValue = useAppSelector((state) => state.search.searchValue);
+  const searchResult = useAppSelector((state) => state.searchResult);
+  const dispatch = useAppDispatch();
+  const { data, isFetching } = searchAPI.useFetchSearchObjectQuery({
+    searchValue,
+    page: pageNumber ? pageNumber : undefined,
+  });
 
-  const processingResult = (result: ApiResponsePeople[]) => {
-    let responses: ApiResponsePeople = initialResponsePeople;
-    const allResults = result.reduce<Person[]>(
-      (accumulator, item) => [...accumulator, ...(item.results || [])],
-      []
-    );
-    responses = {
-      count: result[0].count,
-      results: allResults,
-      previous: result[0].previous,
-      next: result[0].next,
-    };
-    setSearchObjectHandler(responses);
-  };
+  const pagesCount = Math.ceil(searchResult.searchResponse.count / density);
+  const originPagesCount: number = Math.ceil(
+    searchResult.searchResponse.count / 10
+  );
 
   useEffect(() => {
+    if (isFetching) {
+      dispatch(setIsLoadingSearch());
+    }
+    if (data) {
+      dispatch(setSearch(data));
+    }
     if (density === 20) {
-      const dataRequests: Promise<ApiResponsePeople>[] = [
-        2 * +(pageNumber ? pageNumber : 1) - 1,
-        2 * +(pageNumber ? pageNumber : 1),
-      ]
-        .filter((x) => x <= originPagesCount)
-        .map((pageNumber) =>
-          getPeopleParamBySearchAndPage(getSearchValue(), pageNumber.toString())
-        );
-      setIsLoadingSearch(true);
-      Promise.all(dataRequests)
-        .then((result) => processingResult(result))
-        .catch((error) => console.log(error.message))
-        .finally(() => setIsLoadingSearch(false));
-    } else {
-      setIsLoadingSearch(true);
-      getPeopleParamBySearchAndPage(
-        getSearchValue(),
-        pageNumber ? pageNumber : undefined
-      )
-        .then((result) => {
-          setSearchObjectHandler(result);
+      dispatch(
+        fetchSearch({
+          search: searchValue,
+          page: pageNumber ? pageNumber : undefined,
+          originPagesCount,
         })
-        .catch((error) => console.log(error.message))
-        .finally(() => setIsLoadingSearch(false));
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchValue, density, pageNumber]);
+  }, [searchValue, density, pageNumber, dispatch, data]);
 
-  return isLoadingSearch ? (
-    <LoadingSpinner />
-  ) : (
-    <section className={styles.searcher}>
-      <div className={styles.resultsContainer}>
-        <CardList searchObject={searchObject} />
-        <div className={styles.details}>
-          <Outlet />
-        </div>
-      </div>
-      <Paginator
-        countPages={pagesCount}
-        currentPage={pageNumber ? +pageNumber : undefined}
-      />
-    </section>
+  return (
+    <>
+      {isFetching || searchResult.isLoadingSearch ? (
+        <LoadingSpinner />
+      ) : (
+        <section className={styles.searcher}>
+          <div className={styles.resultsContainer}>
+            <CardList searchObject={searchResult.searchResponse} />
+            <div className={styles.details}>
+              <Outlet />
+            </div>
+          </div>
+          <Paginator
+            countPages={pagesCount}
+            currentPage={pageNumber ? +pageNumber : undefined}
+          />
+        </section>
+      )}
+      {searchResult.errors.searchResponse && <ErrorPage />}
+    </>
   );
 }

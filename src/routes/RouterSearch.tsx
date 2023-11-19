@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import SearchPage from '../pages/SearchPage/SearchPage';
-import ErrorMatchPage from '../components/ErrorMatchPage/ErrorMatchPage';
+import ErrorPage from '../pages/ErrorPage/ErrorPage';
 import Searcher from '../components/Searcher/Searcher';
 import CardDetails from '../components/CardDetails/CardDetails';
 
@@ -8,7 +8,7 @@ export const routerSearchConfig = [
   {
     path: '/',
     element: <SearchPage />,
-    errorElement: <ErrorMatchPage />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '',
@@ -36,7 +36,6 @@ export const routerSearchConfig = [
 
 export default function RouterSearch() {
   const router = createBrowserRouter(routerSearchConfig);
-
   return (
     <>
       <RouterProvider router={router} />
