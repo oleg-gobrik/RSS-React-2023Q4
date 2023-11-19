@@ -1,5 +1,5 @@
 export type Props = {
-  setSearchValue: (value: string) => void;
+  //setSearchValue: (value: string) => void;
   setDensityValue: (value: number) => void;
 };
 export type StateData = {

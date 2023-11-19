@@ -7,14 +7,13 @@ export default function ListPreviousRequests({
 }: Props) {
   return (
     <>
-      {previousRequests && previousRequests.length && (
+      {previousRequests && previousRequests.length !== 0 && (
         <ul className={styles.listRequests}>
-          {previousRequests.length &&
-            previousRequests.map((item) => (
-              <li key={item} id={item} onClick={() => onClickHandler(item)}>
-                {item}
-              </li>
-            ))}
+          {previousRequests.map((item) => (
+            <li key={item} id={item} onClick={() => onClickHandler(item)}>
+              {item}
+            </li>
+          ))}
         </ul>
       )}
     </>
