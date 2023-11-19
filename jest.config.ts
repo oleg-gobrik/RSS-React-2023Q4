@@ -1,4 +1,13 @@
 export default {
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
+  globals: {
+    TextEncoder: require('util').TextEncoder,
+    TextDecoder: require('util').TextDecoder,
+  },
+  setupFiles: ['./jest.polyfills.js'],
+  setupFilesAfterEnv: ['<rootDir>/src/setupTest.ts'],
   preset: 'ts-jest',
   testEnvironment: 'jest-environment-jsdom',
   transform: {

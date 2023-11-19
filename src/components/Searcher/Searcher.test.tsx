@@ -1,8 +1,7 @@
 import '@testing-library/jest-dom';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import Searcher from './Searcher';
 import {
-  testMockPeople,
   testMockPerson,
   testMockProviderProps,
   testMockProviderPropsAndDensity20,
@@ -12,32 +11,22 @@ import {
   customRenderWithSearchContext,
 } from '../../test/TestMethods';
 import userEvent from '@testing-library/user-event';
+import { server } from '../../mocks/server';
+import { HttpResponse, http } from 'msw';
 
 describe('Searcher component', () => {
   let providerProps: ProviderProps;
-  const realFetch = global.fetch;
-  afterEach(() => {
-    global.fetch = realFetch;
-  });
-
-  afterAll(() => {
-    jest.clearAllMocks();
-  });
 
   test('Should render spinner loading and after card with name', async () => {
     providerProps = JSON.parse(JSON.stringify(testMockProviderProps));
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(testMockPeople),
-      })
-    ) as jest.Mock;
+
     const { container } = customRenderWithSearchContext(<Searcher />, {
       providerProps,
     });
 
     expect(container.getElementsByClassName('spinnerContainer').length).toBe(1);
 
-    await screen.findByText(testMockPerson.name);
+    await waitFor(() => screen.findByText(testMockPerson.name));
     expect(screen.getByText(testMockPerson.name)).toBeInTheDocument();
   });
 
@@ -45,72 +34,67 @@ describe('Searcher component', () => {
     providerProps = JSON.parse(
       JSON.stringify(testMockProviderPropsAndDensity20)
     );
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(testMockPeople),
-      })
-    ) as jest.Mock;
+
     const { container } = customRenderWithSearchContext(<Searcher />, {
       providerProps,
     });
 
     expect(container.getElementsByClassName('spinnerContainer').length).toBe(1);
 
-    await screen.findByText(testMockPerson.name);
+    await waitFor(() => screen.findByText(testMockPerson.name));
     expect(screen.getByText(testMockPerson.name)).toBeInTheDocument();
   });
 
+  test('Should render second page after click on page link', async () => {
+    providerProps = JSON.parse(JSON.stringify(testMockProviderProps));
+
+    const { container } = customRenderWithSearchContext(<Searcher />, {
+      providerProps,
+    });
+
+    expect(container.getElementsByClassName('spinnerContainer').length).toBe(1);
+
+    await waitFor(() => screen.findByText('Obi-Wan Kenobi'));
+    expect(screen.getByText('Obi-Wan Kenobi')).toBeInTheDocument();
+
+    const link = screen.getByText('2');
+    userEvent.click(link);
+    await waitFor(() => screen.findByText('Wat Tambor'));
+    expect(screen.getByText('Wat Tambor')).toBeInTheDocument();
+  });
+});
+
+describe('Searcher errors', () => {
+  let providerProps: ProviderProps;
+
   test('Should throw error after fetch with density 10', async () => {
     providerProps = JSON.parse(JSON.stringify(testMockProviderProps));
-    const consoleSpy = jest.spyOn(global.console, 'log').mockImplementation();
-    global.fetch = jest.fn(() => {
-      return Promise.reject(new Error('Test'));
-    }) as jest.Mock;
-    jest.spyOn(global, 'fetch');
+    server.use(
+      http.get(`*`, () => {
+        return new HttpResponse(null, { status: 404 });
+      })
+    );
 
     customRenderWithSearchContext(<Searcher />, { providerProps });
 
-    await screen.findByText('1');
-    expect(consoleSpy).toHaveBeenCalledWith('Test');
-    consoleSpy.mockClear();
+    await waitFor(() => screen.findByText('Nothing'));
+    expect(screen.getByText('Nothing')).toBeInTheDocument();
   });
 
   test('Should throw error after fetch with density 20', async () => {
     providerProps = JSON.parse(
       JSON.stringify(testMockProviderPropsAndDensity20)
     );
-    const consoleSpy = jest.spyOn(global.console, 'log').mockImplementation();
-    global.fetch = jest.fn(() => {
-      return Promise.reject(new Error('Test'));
-    }) as jest.Mock;
-    jest.spyOn(global, 'fetch');
+    server.use(
+      http.get(`*`, () => {
+        return new HttpResponse(null, { status: 404 });
+      })
+    );
 
     customRenderWithSearchContext(<Searcher />, { providerProps });
 
-    await screen.findByText('1');
-    expect(consoleSpy).toHaveBeenCalledWith('Test');
-    consoleSpy.mockClear();
-  });
-
-  test('Should render second page after click on page link', async () => {
-    providerProps = JSON.parse(JSON.stringify(testMockProviderProps));
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(testMockPeople),
-      })
-    ) as jest.Mock;
-    const { container } = customRenderWithSearchContext(<Searcher />, {
-      providerProps,
-    });
-
-    expect(container.getElementsByClassName('spinnerContainer').length).toBe(1);
-
-    await screen.findByText('Obi-Wan Kenobi');
-    expect(screen.getByText('Obi-Wan Kenobi')).toBeInTheDocument();
-
-    const link = screen.getByText('2');
-    userEvent.click(link);
-    await screen.findByText('Wat Tambor');
-    expect(screen.getByText('Wat Tambor')).toBeInTheDocument();
+    screen.debug();
+    await waitFor(() => screen.findByText('Nothing'));
+    expect(screen.getByText('Nothing')).toBeInTheDocument();
   });
 });

@@ -1,7 +1,9 @@
 import RouterSearch from './routes/RouterSearch';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 import { Provider } from 'react-redux';
-import store from './store/store';
+import { setupStore } from './store/store';
+
+const store = setupStore({});
 
 function App() {
   return (

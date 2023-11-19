@@ -10,7 +10,6 @@ import userEvent from '@testing-library/user-event';
 import { getSearchValue } from '../../utils/SearchLocalStorage';
 
 const setDensity = jest.fn();
-const setSearch = jest.fn();
 
 describe('SearchBar component', () => {
   let providerProps: ProviderProps;
@@ -24,10 +23,9 @@ describe('SearchBar component', () => {
   });
 
   test('Should render SearchBar and save entered value to the local storage after click the Search button', async () => {
-    customRenderWithSearchContext(
-      <SearchBar setDensityValue={setDensity} setSearchValue={setSearch} />,
-      { providerProps }
-    );
+    customRenderWithSearchContext(<SearchBar setDensityValue={setDensity} />, {
+      providerProps,
+    });
 
     const input = screen.getByRole('textbox');
 
@@ -40,21 +38,19 @@ describe('SearchBar component', () => {
     expect(getSearchValue()).toEqual('Sky');
   });
 
-  test('Should render SearchBar and retrieves the value from the local storage', async () => {
-    customRenderWithSearchContext(
-      <SearchBar setDensityValue={setDensity} setSearchValue={setSearch} />,
-      { providerProps }
-    );
+  test('Should render SearchBar and retrieves the value from the local storage', () => {
+    customRenderWithSearchContext(<SearchBar setDensityValue={setDensity} />, {
+      providerProps,
+    });
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('Sky');
   });
 
   test('Should render SearchBar and remove previous value and entered new value with click Enter key', async () => {
-    customRenderWithSearchContext(
-      <SearchBar setDensityValue={setDensity} setSearchValue={setSearch} />,
-      { providerProps }
-    );
+    customRenderWithSearchContext(<SearchBar setDensityValue={setDensity} />, {
+      providerProps,
+    });
 
     const input = screen.getByRole('textbox');
     await userEvent.clear(input);
@@ -66,10 +62,9 @@ describe('SearchBar component', () => {
   });
 
   test('Should render SearchBar and set value from list previous request', async () => {
-    customRenderWithSearchContext(
-      <SearchBar setDensityValue={setDensity} setSearchValue={setSearch} />,
-      { providerProps }
-    );
+    customRenderWithSearchContext(<SearchBar setDensityValue={setDensity} />, {
+      providerProps,
+    });
 
     const input = screen.getByRole('textbox');
     await userEvent.clear(input);
@@ -81,7 +76,7 @@ describe('SearchBar component', () => {
 
   test('Should render SearchBar and change dropdown value with reloading page', async () => {
     customRenderWithSearchContext(
-      <SearchBar setDensityValue={setDensity} setSearchValue={setSearch} />,
+      <SearchBar setDensityValue={setDensity} />,
       { providerProps },
       '/',
       '/',

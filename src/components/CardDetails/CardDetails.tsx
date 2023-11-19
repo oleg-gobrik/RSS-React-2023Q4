@@ -6,4 +6,5 @@ export default function CardDetails() {
   if (id) {
     return <DetailsInfo id={id} />;
   }
+  return null;
 }

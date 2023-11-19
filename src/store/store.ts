@@ -1,4 +1,8 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  combineReducers,
+  PreloadedState,
+} from '@reduxjs/toolkit';
 import searchReducer from './searchSlice/searchSlice';
 import searchResultReducer from './searchResultSlice/searchResultSlice';
 import { searchAPI } from '../utils/services/SearchService';
@@ -8,12 +12,15 @@ const rootReducer = combineReducers({
   searchResult: searchResultReducer,
   [searchAPI.reducerPath]: searchAPI.reducer,
 });
-const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(searchAPI.middleware),
-});
+export function setupStore(preloadedState?: PreloadedState<RootState>) {
+  return configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(searchAPI.middleware),
+    preloadedState,
+  });
+}
 
-export default store;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];

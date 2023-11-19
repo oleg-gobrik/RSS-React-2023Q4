@@ -1,13 +1,12 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { ApiResponsePeople } from '../utils/ApiResponse/ApiResponsePeople';
 import { SearchContext } from '../utils/contexts/SearchContext';
 import { render } from '@testing-library/react';
+import { setupStore } from '../store/store';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { Provider } from 'react-redux';
 
 export interface ProviderProps {
-  searchValue: string;
   density: number;
-  searchObject: ApiResponsePeople;
-  setSearchObjectHandler: (value: ApiResponsePeople) => void;
 }
 
 export const customRenderWithSearchContext = (
@@ -15,21 +14,51 @@ export const customRenderWithSearchContext = (
   { providerProps }: { providerProps: ProviderProps },
   initialEntriesPathname: string = '/test',
   routePathnameUI: string = '/test',
-  routePathnameEmpty: string = '/'
+  routePathnameEmpty: string = '/',
+  { preloadedState = {}, store = setupStore(preloadedState) } = {}
 ) => {
-  return render(
-    <MemoryRouter initialEntries={[initialEntriesPathname]}>
-      <Routes>
-        <Route
-          path={routePathnameUI}
-          element={
-            <SearchContext.Provider value={providerProps}>
-              {ui}
-            </SearchContext.Provider>
-          }
-        />
-        <Route path={routePathnameEmpty} element={<span>Test</span>} />
-      </Routes>
-    </MemoryRouter>
-  );
+  setupListeners(store.dispatch);
+  return {
+    store,
+    ...render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[initialEntriesPathname]}>
+          <Routes>
+            <Route
+              path={routePathnameUI}
+              element={
+                <SearchContext.Provider value={providerProps}>
+                  {ui}
+                </SearchContext.Provider>
+              }
+            />
+            <Route path={routePathnameEmpty} element={<span>Test</span>} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
+    ),
+  };
+};
+
+export const customRender = (
+  ui: React.ReactNode,
+  initialEntriesPathname: string = '/test',
+  routePathnameUI: string = '/test',
+  routePathnameEmpty: string = '/',
+  { preloadedState = {}, store = setupStore(preloadedState) } = {}
+) => {
+  setupListeners(store.dispatch);
+  return {
+    store,
+    ...render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[initialEntriesPathname]}>
+          <Routes>
+            <Route path={routePathnameUI} element={ui} />
+            <Route path={routePathnameEmpty} element={<span>Test</span>} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>
+    ),
+  };
 };
