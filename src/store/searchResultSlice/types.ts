@@ -13,3 +13,9 @@ export interface PersonListState {
     searchResponse: string;
   };
 }
+export interface SearchParam {
+  search: string;
+  page: string | undefined;
+  originPagesCount: number;
+  //limit: 10 | 20;
+}

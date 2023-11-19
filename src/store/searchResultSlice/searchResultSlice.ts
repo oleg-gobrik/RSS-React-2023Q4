@@ -5,7 +5,7 @@ import {
   initialPerson,
   initialResponsePeople,
 } from '../../utils/ApiResponse/ApiResponsePeople';
-import { PersonListState } from './types';
+import { PersonListState, SearchParam } from './types';
 
 const processingResult = (result: ApiResponsePeople[]) => {
   let responses: ApiResponsePeople = initialResponsePeople;
@@ -25,52 +25,31 @@ const processingResult = (result: ApiResponsePeople[]) => {
 export const fetchSearch = createAsyncThunk(
   'searchResult/fetchSearch',
   async (
-    {
-      search,
-      page,
-      limit = 10,
-      originPagesCount,
-    }: {
-      search: string;
-      page: string | undefined;
-      limit: 10 | 20;
-      originPagesCount: number;
-    },
+    { search, page, originPagesCount /*, limit = 20*/ }: SearchParam,
     { rejectWithValue }
   ) => {
     try {
-      if (limit === 20) {
-        const dataRequests: Promise<ApiResponsePeople>[] = [
-          2 * +(page ? page : 1) - 1,
-          2 * +(page ? page : 1),
-        ]
-          .filter((x) => x <= originPagesCount)
-          .map(async (pageNumber) => {
-            const response = await fetch(
-              `https://swapi.dev/api/people/?search=${search}&page=${pageNumber.toString()}`
-            );
-            if (!response.ok) {
-              throw new Error('Server error.');
-            }
-            const data: ApiResponsePeople = await response.json();
-            return data;
-          });
-        const data: ApiResponsePeople = await Promise.all(dataRequests).then(
-          (result) => processingResult(result)
-        );
-        return data;
-      } else {
-        const response = await fetch(
-          `https://swapi.dev/api/people/?search=${search}&page=${
-            page ? page : '1'
-          }`
-        );
-        if (!response.ok) {
-          throw new Error('Server error.');
-        }
-        const data: ApiResponsePeople = await response.json();
-        return data;
-      }
+      //if (limit === 20) {
+      const dataRequests: Promise<ApiResponsePeople>[] = [
+        2 * +(page ? page : 1) - 1,
+        2 * +(page ? page : 1),
+      ]
+        .filter((x) => x <= originPagesCount)
+        .map(async (pageNumber) => {
+          const response = await fetch(
+            `https://swapi.dev/api/people/?search=${search}&page=${pageNumber.toString()}`
+          );
+          if (!response.ok) {
+            throw new Error('Server error.');
+          }
+          const data: ApiResponsePeople = await response.json();
+          return data;
+        });
+      const data: ApiResponsePeople = await Promise.all(dataRequests).then(
+        (result) => processingResult(result)
+      );
+      return data;
+      //}
     } catch (error) {
       return rejectWithValue((error as Error).message);
     }
@@ -93,32 +72,19 @@ const searchResultSlice = createSlice({
   initialState,
   reducers: {
     setPerson: (state, action: PayloadAction<{ personDetails: Person }>) => {
+      state.isLoadingPerson = false;
       state.personDetails = action.payload.personDetails;
     },
-    setLoadingPerson: (
-      state,
-      action: PayloadAction<{ isLoadingPerson: boolean }>
-    ) => {
-      state.isLoadingPerson = action.payload.isLoadingPerson;
+    setSearch: (state, action: PayloadAction<ApiResponsePeople>) => {
+      state.isLoadingSearch = false;
+      state.searchResponse = action.payload;
     },
-    setErrorPerson: (
-      state,
-      action: PayloadAction<{ errorDetails: string }>
-    ) => {
-      state.errors.personDetails = action.payload.errorDetails;
+    setIsLoadingSearch: (state) => {
+      state.isLoadingSearch = true;
     },
-    // searchResponseFetching: (state) => {
-    //     state.isLoadingSearch = true;
-    // },
-    // searchResponseSuccess: (state, action:PayloadAction<{ personDetails: Person }>) => {
-    //     state.isLoadingSearch = false;
-    //     state.error = '';
-    //     state.personDetails = action.payload.personDetails;
-    // },
-    // searchResponseError: (state, action:PayloadAction<string>) => {
-    //     state.isLoadingSearch = false;
-    //     state.error = action.payload;
-    // },
+    setIsLoadingPerson: (state) => {
+      state.isLoadingPerson = true;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -141,6 +107,6 @@ const searchResultSlice = createSlice({
   },
 });
 
-export const { setPerson, setLoadingPerson, setErrorPerson } =
+export const { setPerson, setSearch, setIsLoadingPerson, setIsLoadingSearch } =
   searchResultSlice.actions;
 export default searchResultSlice.reducer;

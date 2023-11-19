@@ -6,16 +6,25 @@ import { Outlet, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSearchContext } from '../../utils/contexts/SearchContext';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchSearch } from '../../store/searchResultSlice/searchResultSlice';
+import {
+  fetchSearch,
+  setIsLoadingSearch,
+  setSearch,
+} from '../../store/searchResultSlice/searchResultSlice';
 import ErrorPage from '../../pages/ErrorPage/ErrorPage';
+import { searchAPI } from '../../utils/services/SearchService';
 
 export default function Searcher() {
   const { density } = useSearchContext();
+  const { pageNumber } = useParams();
 
   const searchValue = useAppSelector((state) => state.search.searchValue);
   const searchResult = useAppSelector((state) => state.searchResult);
   const dispatch = useAppDispatch();
-  const { pageNumber } = useParams();
+  const { data, isFetching } = searchAPI.useFetchSearchObjectQuery({
+    searchValue,
+    page: pageNumber ? pageNumber : undefined,
+  });
 
   const pagesCount = Math.ceil(searchResult.searchResponse.count / density);
   const originPagesCount: number = Math.ceil(
@@ -23,31 +32,27 @@ export default function Searcher() {
   );
 
   useEffect(() => {
+    if (isFetching) {
+      dispatch(setIsLoadingSearch());
+    }
+    if (data) {
+      dispatch(setSearch(data));
+    }
     if (density === 20) {
       dispatch(
         fetchSearch({
           search: searchValue,
           page: pageNumber ? pageNumber : undefined,
-          limit: 20,
-          originPagesCount,
-        })
-      );
-    } else {
-      dispatch(
-        fetchSearch({
-          search: searchValue,
-          page: pageNumber ? pageNumber : undefined,
-          limit: 10,
           originPagesCount,
         })
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchValue, density, pageNumber]);
+  }, [searchValue, density, pageNumber, dispatch, data]);
 
   return (
     <>
-      {searchResult.isLoadingSearch ? (
+      {isFetching || searchResult.isLoadingSearch ? (
         <LoadingSpinner />
       ) : (
         <section className={styles.searcher}>

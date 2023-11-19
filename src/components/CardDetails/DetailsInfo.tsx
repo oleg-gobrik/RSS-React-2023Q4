@@ -4,7 +4,10 @@ import Button from '../Button/Button';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { searchAPI } from '../../utils/services/SearchService';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setPerson } from '../../store/searchResultSlice/searchResultSlice';
+import {
+  setIsLoadingPerson,
+  setPerson,
+} from '../../store/searchResultSlice/searchResultSlice';
 import { useEffect } from 'react';
 
 export default function DetailsInfo({ id }: { id: string }) {
@@ -18,14 +21,17 @@ export default function DetailsInfo({ id }: { id: string }) {
   } = searchAPI.useFetchPersonQuery(id);
 
   useEffect(() => {
+    if (isFetching) {
+      dispatch(setIsLoadingPerson());
+    }
     if (personDetails) {
       dispatch(setPerson({ personDetails }));
     }
-  }, [personDetails, dispatch]);
+  }, [personDetails, dispatch, isFetching]);
   return (
     <>
       {error && <h1>Something was wrong!</h1>}
-      {id && isFetching ? (
+      {isFetching ? (
         <LoadingSpinner />
       ) : (
         <div className={styles.detailsContainer}>
