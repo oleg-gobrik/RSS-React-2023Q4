@@ -3,7 +3,7 @@ import { ApiResponsePeople, Person } from '../ApiResponse/ApiResponsePeople';
 
 export const searchAPI = createApi({
   reducerPath: 'searchAPI',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://swapi.dev/api/people' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://swapi.dev/api/people/' }),
   endpoints: (build) => ({
     fetchPerson: build.query<Person, string>({
       query: (id) => ({

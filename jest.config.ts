@@ -7,7 +7,7 @@ export default {
     TextDecoder: require('util').TextDecoder,
   },
   setupFiles: ['./jest.polyfills.js'],
-  setupFilesAfterEnv: ['<rootDir>/src/setupTest.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/setupServer.ts'],
   preset: 'ts-jest',
   testEnvironment: 'jest-environment-jsdom',
   transform: {
