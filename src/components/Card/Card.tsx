@@ -1,27 +1,27 @@
+import { usePathname } from 'next/navigation';
 import styles from './Card.module.css';
 import { Props } from './types';
-import { Link, useLocation } from 'react-router-dom';
-
+import Link from 'next/link';
 export default function Card(props: Props) {
   const { value } = props;
 
   const id = value.url.slice(0, -1).split('/').pop();
-  const location = useLocation();
-  const isDetails = location.pathname.includes('/details/');
-  const isPageNumber = location.pathname.includes('/page/');
+  const pathname = usePathname();
+  const isDetails = pathname.includes('/details/');
+  const isPageNumber = pathname.includes('/page/');
 
   let resultUrl: string = '';
   if (isDetails) {
-    resultUrl = `${location.pathname}/../${id}`;
+    resultUrl = `${pathname}/../${id}`;
   } else if (isPageNumber) {
-    resultUrl = `${location.pathname}/details/${id}`;
+    resultUrl = `${pathname}/details/${id}`;
   } else {
-    resultUrl = `${location.pathname}details/${id}`;
+    resultUrl = `${pathname}details/${id}`;
   }
 
   return (
     <div className={styles.card}>
-      <Link to={resultUrl} className={styles.link}>
+      <Link href={resultUrl} className={styles.link}>
         <div className={styles.container}>
           <span className={styles.parameter}>{value.name}</span>
         </div>

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styles from './CardDetails.module.css';
 import Button from '../Button/Button';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import { searchAPI } from '../../utils/services/SearchService';
+import { searchAPI } from '../../store/SearchService';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   setIsLoadingPerson,

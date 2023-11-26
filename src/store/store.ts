@@ -5,13 +5,15 @@ import {
 } from '@reduxjs/toolkit';
 import searchReducer from './searchSlice/searchSlice';
 import searchResultReducer from './searchResultSlice/searchResultSlice';
-import { searchAPI } from '../utils/services/SearchService';
+import { searchAPI } from './SearchService';
+import { createWrapper } from 'next-redux-wrapper';
 
 const rootReducer = combineReducers({
   search: searchReducer,
   searchResult: searchResultReducer,
   [searchAPI.reducerPath]: searchAPI.reducer,
 });
+
 export function setupStore(preloadedState?: PreloadedState<RootState>) {
   return configureStore({
     reducer: rootReducer,
@@ -21,6 +23,12 @@ export function setupStore(preloadedState?: PreloadedState<RootState>) {
   });
 }
 
+export const makeStore = () => {
+  return setupStore();
+};
+
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof setupStore>;
 export type AppDispatch = AppStore['dispatch'];
+
+export const wrapper = createWrapper<AppStore>(makeStore, { debug: true });

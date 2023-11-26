@@ -1,9 +1,18 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { ApiResponsePeople, Person } from '../ApiResponse/ApiResponsePeople';
+import {
+  ApiResponsePeople,
+  Person,
+} from '../utils/ApiResponse/ApiResponsePeople';
+import { HYDRATE } from 'next-redux-wrapper';
 
 export const searchAPI = createApi({
   reducerPath: 'searchAPI',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://swapi.dev/api/people/' }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (build) => ({
     fetchPerson: build.query<Person, string>({
       query: (id) => ({
@@ -24,3 +33,9 @@ export const searchAPI = createApi({
     }),
   }),
 });
+
+export const {
+  util: { getRunningQueriesThunk },
+} = searchAPI;
+
+export const { fetchPerson, fetchSearchObject } = searchAPI.endpoints;
