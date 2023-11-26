@@ -23,12 +23,11 @@
   },
   "include": [
     "jest.config.ts",
-    "vite.config.ts",
     ".eslintrc.cjs",
     "src",
     "dist/types/**/*.ts",
     "next-env.d.ts"
   ],
-  "references": [{ "path": "./tsconfig.node.json" }],
+  "references": [],
   "exclude": ["./node_modules"]
 }
