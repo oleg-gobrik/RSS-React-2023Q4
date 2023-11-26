@@ -28,7 +28,7 @@
 }
 .close {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .closeButton {
   background-color: var(--button-close-bg-color);

@@ -1,12 +1,12 @@
 import styles from './Paginator.module.css';
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Props } from './types';
 
 export default function Paginator({ countPages, currentPage }: Props) {
   const [arrayPages, setArrayPages] = useState<number[]>([]);
-  const location = useLocation();
-
+  const pathname = usePathname();
   useEffect(() => {
     const array: number[] = [];
     for (let i: number = 1; i <= countPages; i++) {
@@ -15,10 +15,8 @@ export default function Paginator({ countPages, currentPage }: Props) {
     setArrayPages(array);
   }, [countPages]);
 
-  const isPaginatorInUrl = location.pathname.includes('/page/');
-  const pathPage = isPaginatorInUrl
-    ? location.pathname.split('/page/').shift()
-    : '';
+  const isPaginatorInUrl = pathname.includes('/page/');
+  const pathPage = isPaginatorInUrl ? pathname.split('/page/').shift() : '';
 
   return (
     <div className={styles.paginator}>
@@ -29,7 +27,11 @@ export default function Paginator({ countPages, currentPage }: Props) {
           curPage === item ? styles.currentPage : styles.page;
         if (item < 6 || item > arrayPages[arrayPages.length - 6]) {
           return (
-            <Link to={urlToNewPage} key={item} className={classNamePageNumber}>
+            <Link
+              href={urlToNewPage}
+              key={item}
+              className={classNamePageNumber}
+            >
               {item}
             </Link>
           );

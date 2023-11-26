@@ -1,12 +1,17 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { SearchContext } from '../utils/contexts/SearchContext';
-import { render } from '@testing-library/react';
-import { setupStore } from '../store/store';
+import { RenderOptions, render } from '@testing-library/react';
+import { AppStore, RootState, setupStore } from '../store/store';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { Provider } from 'react-redux';
+import { PreloadedState } from '@reduxjs/toolkit';
 
 export interface ProviderProps {
   density: number;
+}
+interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
+  preloadedState?: PreloadedState<RootState>;
+  store?: AppStore;
 }
 
 export const customRenderWithSearchContext = (
@@ -15,7 +20,10 @@ export const customRenderWithSearchContext = (
   initialEntriesPathname: string = '/test',
   routePathnameUI: string = '/test',
   routePathnameEmpty: string = '/',
-  { preloadedState = {}, store = setupStore(preloadedState) } = {}
+  {
+    preloadedState = {},
+    store = setupStore(preloadedState),
+  }: ExtendedRenderOptions = {}
 ) => {
   setupListeners(store.dispatch);
   return {

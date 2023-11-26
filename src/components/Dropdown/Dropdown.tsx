@@ -1,7 +1,18 @@
+'use client';
 import styles from './Dropdown.module.css';
+import { useSearchContext } from '../../utils/contexts/SearchContext';
+import { useRouter } from 'next/navigation';
 import { Props } from './types';
 
 export default function Dropdown(props: Props) {
+  const { setValueDensity } = useSearchContext();
+  const router = useRouter();
+
+  const changeDropdownValue = (value: number) => {
+    setValueDensity(value);
+    router.push('/page/1');
+  };
+
   return (
     <div className={styles.dropdown}>
       <label className={styles.containerDropdown}>
@@ -11,7 +22,7 @@ export default function Dropdown(props: Props) {
           className={styles.selector}
           defaultValue={props.items[0]}
           onChange={(event) => {
-            props.changeValueHandler(+event.target.value);
+            changeDropdownValue(+event.target.value);
           }}
         >
           {props.items.length &&

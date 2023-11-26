@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react';
 export interface ISearchContext {
   density: number;
+  setValueDensity: (value: number) => void;
 }
 
 export const SearchContext = createContext<ISearchContext | undefined>(

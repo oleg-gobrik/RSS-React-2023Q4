@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import styles from './CardDetails.module.css';
 import Button from '../Button/Button';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import { searchAPI } from '../../utils/services/SearchService';
+import { searchAPI } from '../../store/SearchService';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   setIsLoadingPerson,
@@ -37,7 +37,7 @@ export default function DetailsInfo({ id }: { id: string }) {
         <div className={styles.detailsContainer}>
           <div className={styles.close}>
             <Button additionalClass={styles.closeButton}>
-              <Link className={styles.link} to="..">
+              <Link className={styles.link} href="..">
                 Close
               </Link>
             </Button>

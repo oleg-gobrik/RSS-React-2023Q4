@@ -8,7 +8,7 @@
 }
 .dropdown {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .containerDropdown {
   background-color: var(--dropdown-bg-color);
