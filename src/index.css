@@ -1,0 +1,78 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  margin: 0 0 2rem 0;
+}
+
+label {
+  font-weight: bold;
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='number'],
+input[type='file'] {
+  display: block;
+  width: 500px;
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+input[type='radio'] {
+  display: flex;
+}
+fieldset {
+  text-align: start;
+}
+a {
+  padding: 1rem;
+  margin: 1rem;
+  text-decoration: none;
+  color: #000;
+  background-color: #808080;
+  border-radius: 20px;
+}
+nav {
+  margin-bottom: 2rem;
+}
+select {
+  min-width: 200px;
+  margin: 0 auto;
+}
