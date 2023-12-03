@@ -1,7 +1,5 @@
+import CardData from '../../components/CardData/CardData';
+
 export default function SavedForm() {
-  return (
-    <>
-      <h1>Saved Form</h1>
-    </>
-  );
+  return <CardData />;
 }
