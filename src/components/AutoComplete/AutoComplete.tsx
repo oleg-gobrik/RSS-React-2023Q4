@@ -3,6 +3,7 @@ import countries from '../../utils/data/countries.json';
 import { Country } from '../../utils/data/countries';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { FormInputFieldKeys } from '../../utils/data/constant';
+import styles from './AutoComplete.module.css';
 
 interface autoCompleteProps {
   id: string;
@@ -51,6 +52,17 @@ export const AutoComplete: FC<autoCompleteProps> = ({
   return (
     <>
       <div>
+        {suggestions.length > 0 && isComponentVisible && (
+          <ul className={styles.autocompleteContainer}>
+            {suggestions.map((item: Country) => (
+              <span key={item.code} className={styles.autocompleteValue}>
+                <li key={item.code} onClick={() => suggestionSelected(item)}>
+                  {item.name}
+                </li>
+              </span>
+            ))}
+          </ul>
+        )}
         <input
           id={id}
           autoComplete="off"
@@ -66,17 +78,6 @@ export const AutoComplete: FC<autoCompleteProps> = ({
           name={register && register(FormInputFieldKeys.country).name}
         />
       </div>
-      {suggestions.length > 0 && isComponentVisible && (
-        <div>
-          {suggestions.map((item: Country) => (
-            <div key={item.code}>
-              <p key={item.code} onClick={() => suggestionSelected(item)}>
-                {item.name}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
     </>
   );
 };
