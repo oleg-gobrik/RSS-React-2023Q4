@@ -1,16 +1,15 @@
 .autocompleteContainer {
   list-style-type: none;
   display: flex;
-  position: absolute;
-  bottom: 0;
-  top: 63.5%;
+  flex-direction: column-reverse;
+  position: relative;
   width: 530px;
   padding: 0;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: #808080;
   max-height: 200px;
-  flex-direction: column-reverse;
+  margin-block-end: 0em;
 }
 .autocompleteValue {
   list-style: none;
