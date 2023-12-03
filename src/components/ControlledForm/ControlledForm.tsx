@@ -18,6 +18,7 @@ export default function ControlledForm() {
     register,
     handleSubmit,
     formState: { isDirty, isValid, errors },
+    reset,
   } = form;
   const dispatch = useAppDispatch();
   dispatch(setValidForm(false));
@@ -38,6 +39,7 @@ export default function ControlledForm() {
     dispatch(setForm(dataForm));
     dispatch(setValidForm(true));
     navigate('/');
+    reset();
   };
   return (
     <>
