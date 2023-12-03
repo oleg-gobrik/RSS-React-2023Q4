@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PayloadAction } from '@reduxjs/toolkit';
 
-export interface FormState {
+export interface IFormData {
   name: string;
   age: number;
   email: string;
-  password: string;
+  firstPassword: string;
+  secondPassword: string;
   gender: string;
-  fileImage: string | null;
+  fileImage: string;
   country: string;
   termsAndConditions: boolean;
 }
@@ -17,12 +18,13 @@ export const initialState = {
     name: '',
     age: 0,
     email: '',
-    password: '',
+    firstPassword: '',
+    secondPassword: '',
     gender: '',
-    fileImage: null,
+    fileImage: '',
     country: '',
     termsAndConditions: false,
-  } as FormState,
+  } as IFormData,
   isValidForm: false,
 };
 
@@ -30,11 +32,12 @@ const formDataSlice = createSlice({
   name: 'formData',
   initialState,
   reducers: {
-    setForm: (state, action: PayloadAction<FormState>) => {
+    setForm: (state, action: PayloadAction<IFormData>) => {
       state.data.name = action.payload.name;
       state.data.age = action.payload.age;
       state.data.email = action.payload.email;
-      state.data.password = action.payload.password;
+      state.data.firstPassword = action.payload.firstPassword;
+      state.data.secondPassword = action.payload.secondPassword;
       state.data.gender = action.payload.gender;
       state.data.fileImage = action.payload.fileImage;
       state.data.country = action.payload.country;

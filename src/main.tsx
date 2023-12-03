@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
-import Root /*, { loader as savedFormLoader }*/ from './routes/Root.tsx';
+import Root from './routes/Root.tsx';
 import ControlledFormRoute from './routes/Form/ControlledFormRoute.tsx';
 import UncontrolledFormRoute from './routes/Form/UncontrolledFormRoute.tsx';
 import ErrorRoute from './routes/ErrorRoute.tsx';
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorRoute />,
     children: [
-      { path: '/', element: <SavedForm /> /*, loader: savedFormLoader */ },
+      { path: '/', element: <SavedForm /> },
       { path: '/controlledForm', element: <ControlledFormRoute /> },
       { path: '/uncontrolledForm', element: <UncontrolledFormRoute /> },
     ],

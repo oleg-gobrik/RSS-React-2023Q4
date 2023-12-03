@@ -1,13 +1,22 @@
 import { ChangeEvent, FC, useState } from 'react';
 import countries from '../../utils/data/countries.json';
 import { Country } from '../../utils/data/countries';
+import { UseFormRegisterReturn } from 'react-hook-form';
+import { FormInputFieldKeys } from '../../utils/data/constant';
 
 interface autoCompleteProps {
   id: string;
   inputRef?: React.RefObject<HTMLInputElement>;
+  register?: (
+    name: FormInputFieldKeys
+  ) => UseFormRegisterReturn<FormInputFieldKeys>;
 }
 
-export const AutoComplete: FC<autoCompleteProps> = ({ id, inputRef }) => {
+export const AutoComplete: FC<autoCompleteProps> = ({
+  id,
+  inputRef,
+  register,
+}) => {
   const [search, setSearch] = useState<{
     text: string;
     suggestions: Country[];
@@ -48,7 +57,13 @@ export const AutoComplete: FC<autoCompleteProps> = ({ id, inputRef }) => {
           value={search.text}
           onChange={onTextChanged}
           type="text"
-          ref={inputRef}
+          ref={
+            inputRef
+              ? inputRef
+              : register && register(FormInputFieldKeys.country).ref
+          }
+          onBlur={register && register(FormInputFieldKeys.country).onBlur}
+          name={register && register(FormInputFieldKeys.country).name}
         />
       </div>
       {suggestions.length > 0 && isComponentVisible && (

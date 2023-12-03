@@ -2,9 +2,9 @@ import { FC } from 'react';
 import styles from './ErrorInput.module.css';
 
 export const ErrorInput: FC<{
-  textMessage: string;
-  isValid: boolean;
-  isShow: boolean;
+  textMessage?: string;
+  isValid?: boolean;
+  isShow?: boolean;
 }> = ({ textMessage, isValid, isShow }) => {
   return (
     <>

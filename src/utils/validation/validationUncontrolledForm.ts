@@ -3,9 +3,9 @@ import {
   ageSchema,
   emailSchema,
   passwordSchema,
-  genderSchema,
   imageSchema,
   countrySchema,
+  termsAndConditionsSchema,
 } from './validationSchema';
 
 export const initialValidationState = {
@@ -14,7 +14,6 @@ export const initialValidationState = {
   isValidEmail: false,
   isValidFirstPassword: false,
   isValidSecondPassword: false,
-  isValidGender: false,
   isValidImage: false,
   isValidCountry: false,
   isValidTermsAndConditions: false,
@@ -26,7 +25,6 @@ export const validationUncontrolledForm = async (
   email: string | null | undefined,
   firstPassword: string | null | undefined,
   secondPassword: string | null | undefined,
-  gender: string | null | undefined,
   image: FileList | null | undefined,
   country: string | null | undefined,
   termsAndConditions: boolean | undefined
@@ -36,9 +34,11 @@ export const validationUncontrolledForm = async (
   const isValidEmail = await emailSchema.isValid(email);
   const isValidFirstPassword = await passwordSchema.isValid(firstPassword);
   const isValidSecondPassword = firstPassword === secondPassword;
-  const isValidGender = await genderSchema.isValid(gender);
   const isValidImage = await imageSchema.isValid(image);
   const isValidCountry = await countrySchema.isValid(country);
+  const isValidTermsAndConditions = await termsAndConditionsSchema.isValid(
+    termsAndConditions
+  );
 
   const isAllValid =
     isValidName &&
@@ -46,9 +46,8 @@ export const validationUncontrolledForm = async (
     isValidEmail &&
     isValidFirstPassword &&
     isValidSecondPassword &&
-    isValidGender &&
     isValidImage &&
-    !!termsAndConditions;
+    isValidTermsAndConditions;
 
   return {
     isValidName,
@@ -56,10 +55,9 @@ export const validationUncontrolledForm = async (
     isValidEmail,
     isValidFirstPassword,
     isValidSecondPassword,
-    isValidGender,
     isValidImage,
     isValidCountry,
-    isValidTermsAndConditions: !!termsAndConditions,
+    isValidTermsAndConditions,
     isAllValid,
   };
 };

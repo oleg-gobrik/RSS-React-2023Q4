@@ -3,14 +3,19 @@ import { AutoComplete } from '../AutoComplete/AutoComplete';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store/hooks';
 import { setForm, setValidForm } from '../../store/formDataSlice/formDataSlice';
-import { FormState } from '../../store/formDataSlice/formDataSlice';
+import { IFormData } from '../../store/formDataSlice/formDataSlice';
 import {
   initialValidationState,
   validationUncontrolledForm,
 } from '../../utils/validation/validationUncontrolledForm';
-import { validationMessages } from '../../utils/validation/validationMessages';
+import {
+  helperText,
+  validationMessages,
+} from '../../utils/validation/validationMessages';
 import { toBase64 } from '../../utils/methods';
 import ErrorInput from '../ErrorInput/ErrorInput';
+import { FormInputFieldKeys } from '../../utils/data/constant';
+import Helper from '../Helper/Helper';
 
 export default function ControlledForm() {
   const navigate = useNavigate();
@@ -39,7 +44,6 @@ export default function ControlledForm() {
       emailRef.current?.value,
       firstPasswordRef.current?.value,
       secondPasswordRef.current?.value,
-      genderRef.current?.value,
       imageRef.current?.files,
       countryRef.current?.value,
       termsAndConditionsRef.current?.checked
@@ -50,11 +54,12 @@ export default function ControlledForm() {
     if (isAllValid) {
       const image = (await toBase64(imageRef.current!.files![0])) as string;
 
-      const data: FormState = {
+      const data: IFormData = {
         name: nameRef.current!.value,
         age: ageRef.current!.valueAsNumber,
         email: emailRef.current!.value,
-        password: firstPasswordRef.current!.value,
+        firstPassword: firstPasswordRef.current!.value,
+        secondPassword: secondPasswordRef.current!.value,
         gender: genderRef.current!.value,
         fileImage: image,
         country: countryRef.current!.value,
@@ -72,7 +77,7 @@ export default function ControlledForm() {
   return (
     <form onSubmit={(event) => submitHandler(event)}>
       <div>
-        <label htmlFor="name">
+        <label htmlFor={FormInputFieldKeys.name}>
           Name
           <ErrorInput
             textMessage={validationMessages.name}
@@ -80,10 +85,10 @@ export default function ControlledForm() {
             isShow={isSecondFillingForm}
           />
         </label>
-        <input type="text" id="name" name="name" ref={nameRef} />
+        <input type="text" id={FormInputFieldKeys.name} ref={nameRef} />
       </div>
       <div>
-        <label htmlFor="age">
+        <label htmlFor={FormInputFieldKeys.age}>
           Age
           <ErrorInput
             textMessage={validationMessages.age}
@@ -91,10 +96,10 @@ export default function ControlledForm() {
             isShow={isSecondFillingForm}
           />
         </label>
-        <input type="number" id="age" name="age" ref={ageRef} />
+        <input type="number" id={FormInputFieldKeys.age} ref={ageRef} />
       </div>
       <div>
-        <label htmlFor="email">
+        <label htmlFor={FormInputFieldKeys.email}>
           Email
           <ErrorInput
             textMessage={validationMessages.email}
@@ -102,26 +107,26 @@ export default function ControlledForm() {
             isShow={isSecondFillingForm}
           />
         </label>
-        <input type="email" id="email" name="email" ref={emailRef} />
+        <input type="email" id={FormInputFieldKeys.email} ref={emailRef} />
       </div>
       <div>
-        <label htmlFor="firstPassword">
+        <label htmlFor={FormInputFieldKeys.firstPassword}>
           Password
-          <ErrorInput
-            textMessage={validationMessages.firstPassword}
-            isValid={validationState.isValidFirstPassword}
-            isShow={isSecondFillingForm}
-          />
+          {!validationState.isValidFirstPassword && isSecondFillingForm && (
+            <Helper
+              helperText={helperText}
+              mainText={validationMessages.firstPassword}
+            />
+          )}
         </label>
         <input
           type="password"
-          id="firstPassword"
-          name="Password"
+          id={FormInputFieldKeys.firstPassword}
           ref={firstPasswordRef}
         />
       </div>
       <div>
-        <label htmlFor="secondPassword">
+        <label htmlFor={FormInputFieldKeys.secondPassword}>
           Confirm Password
           <ErrorInput
             textMessage={validationMessages.secondPassword}
@@ -131,22 +136,21 @@ export default function ControlledForm() {
         </label>
         <input
           type="password"
-          id="secondPassword"
-          name="Password"
+          id={FormInputFieldKeys.secondPassword}
           ref={secondPasswordRef}
         />
       </div>
 
-      <label htmlFor="gender">
+      <label htmlFor={FormInputFieldKeys.gender}>
         Select gender
-        <select id="gender" ref={genderRef}>
+        <select id={FormInputFieldKeys.gender} ref={genderRef}>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
       </label>
 
       <div>
-        <label htmlFor="image">
+        <label htmlFor={FormInputFieldKeys.fileImage}>
           Picture
           <ErrorInput
             textMessage={validationMessages.image}
@@ -154,10 +158,10 @@ export default function ControlledForm() {
             isShow={isSecondFillingForm}
           />
         </label>
-        <input type="file" id="image" name="file" ref={imageRef} />
+        <input type="file" id={FormInputFieldKeys.fileImage} ref={imageRef} />
       </div>
       <div>
-        <label htmlFor="country">
+        <label htmlFor={FormInputFieldKeys.country}>
           Country
           <ErrorInput
             textMessage={validationMessages.country}
@@ -165,14 +169,13 @@ export default function ControlledForm() {
             isShow={isSecondFillingForm}
           />
         </label>
-        <AutoComplete id="country" inputRef={countryRef} />
+        <AutoComplete id={FormInputFieldKeys.country} inputRef={countryRef} />
       </div>
       <div>
-        <label htmlFor="T&C">
+        <label htmlFor={FormInputFieldKeys.termsAndConditions}>
           <input
             type="checkbox"
-            id="T&C"
-            name="T&C"
+            id={FormInputFieldKeys.termsAndConditions}
             ref={termsAndConditionsRef}
           />
           “Agree to Terms & Conditions”
