@@ -7,10 +7,13 @@ export const nameSchema = yup
     if (!name) return false;
     return name.length > 3;
   })
+  .matches(/^[A-Z]/, 'Name should start from uppercase letter')
   .required('Name is required');
 
 export const ageSchema = yup
   .number()
+  .transform((value) => (isNaN(value) ? undefined : value))
+  .nullable()
   .positive('Age should be a positive number')
   .required('Age is required');
 
@@ -44,6 +47,14 @@ export const imageSchema = yup
     (value) => {
       if (!value || !(value as FileList)[0]) return false;
       return ['image/jpeg', 'image/png'].includes((value as FileList)[0].type);
+    }
+  )
+  .test(
+    'fileSize',
+    'Incorrect file, only JPEG or PNG with size less than 3 MB can be uploaded',
+    (value) => {
+      if (!value || !(value as FileList)[0]) return false;
+      return (value as FileList)[0].size <= 3000000;
     }
   )
   .required('Picture is required');

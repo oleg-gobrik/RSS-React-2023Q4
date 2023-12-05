@@ -14,17 +14,7 @@ export interface IFormData {
 }
 
 export const initialState = {
-  data: {
-    name: '',
-    age: 0,
-    email: '',
-    firstPassword: '',
-    secondPassword: '',
-    gender: '',
-    fileImage: '',
-    country: '',
-    termsAndConditions: false,
-  } as IFormData,
+  data: [] as IFormData[],
   isValidForm: false,
 };
 
@@ -33,15 +23,7 @@ const formDataSlice = createSlice({
   initialState,
   reducers: {
     setForm: (state, action: PayloadAction<IFormData>) => {
-      state.data.name = action.payload.name;
-      state.data.age = action.payload.age;
-      state.data.email = action.payload.email;
-      state.data.firstPassword = action.payload.firstPassword;
-      state.data.secondPassword = action.payload.secondPassword;
-      state.data.gender = action.payload.gender;
-      state.data.fileImage = action.payload.fileImage;
-      state.data.country = action.payload.country;
-      state.data.termsAndConditions = action.payload.termsAndConditions;
+      state.data.push(action.payload);
     },
     setValidForm: (state, action: PayloadAction<boolean>) => {
       state.isValidForm = action.payload;

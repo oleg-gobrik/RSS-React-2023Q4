@@ -1,5 +1,5 @@
-import CardData from '../../components/CardData/CardData';
+import CardDataList from '../../components/CardDataList/CardDataList';
 
 export default function SavedForm() {
-  return <CardData />;
+  return <CardDataList />;
 }

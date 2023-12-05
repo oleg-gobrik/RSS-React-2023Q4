@@ -1,0 +1,23 @@
+.newData {
+  color: #ffffff;
+  background-color: #0051ff;
+  padding: 0 2rem;
+  border: 1px solid #000000;
+  border-radius: 30px;
+}
+.card {
+  border: 2px solid #ffffff;
+  border-radius: 30px;
+}
+.cardList {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 1rem;
+}
+.image {
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  width: 350px;
+  display: block;
+}
