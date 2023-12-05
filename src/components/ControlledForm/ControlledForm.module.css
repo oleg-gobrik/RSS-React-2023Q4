@@ -1,0 +1,9 @@
+.errorText {
+  color: #ff0000;
+  padding-left: 1rem;
+  display: block;
+}
+.terms {
+  display: inline;
+  justify-content: start;
+}
