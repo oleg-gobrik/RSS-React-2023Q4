@@ -17,10 +17,14 @@ export const CardDataList: FC = () => {
       <div className={styles.cardList}>
         {data.length &&
           data.map((item: IFormData, index) => (
-            <div className={styles.card} key={item.email + item.firstPassword}>
-              {index === data.length - 1 && isDisplayNewData && (
-                <p className={styles.newData}>This is new data</p>
-              )}
+            <div
+              className={
+                index === data.length - 1 && isDisplayNewData
+                  ? styles.newCard
+                  : styles.card
+              }
+              key={item.email + item.firstPassword}
+            >
               <p>Name: {item.name} </p>
               <p>Age: {item.age}</p>
               <p>Email: {item.email} </p>

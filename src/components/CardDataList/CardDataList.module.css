@@ -9,6 +9,11 @@
   border: 2px solid #ffffff;
   border-radius: 30px;
 }
+.newCard {
+  border: 2px solid #ff0000;
+  border-radius: 30px;
+}
+
 .cardList {
   display: flex;
   flex-wrap: wrap;
